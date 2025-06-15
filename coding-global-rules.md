@@ -31,13 +31,15 @@
 
 - Avoid single-character identfiers.  In loops, use identifiers such as `index`, `counter`, and `loopCount` instead of single-character identifiers.
 
+- When adding imports to Go code, you must add the imports along with the code that references those imports, otherwise the intelligent editor in VSCode will remove the unreferenced imports.
+
 - All scripts that you create must be Bash scripts.  Never write a Windows batch script unless explicit instructed to do so.
 
 - In Bash scripts, all variable names must be fully uppercase.  For example: `COUNT=0`, `FILENAME="file.txt"`, etc.
 
 - In Bash scripts, local variables in Bash functions should start with a leading underscore.  For example: `local _COUNTER=0`.
 
-- In Bash scripts use the new test command (`[[ ... ]]`) instead of the traditional one (`[ ... ]`). Be careful to use the proper argument syntax for the new test command, such as using `&&` instead of `-a` to indicate Boolean AND.
+- In Bash scripts use the new test command (`[[ ... ]]`) instead of the traditional one (`[... ]`). Be careful to use the proper argument syntax for the new test command, such as using `&&` instead of `-a` to indicate Boolean AND.
 
 
 # Writing Comments in Source Code
@@ -65,7 +67,9 @@
 
 - When using GCC to build a graphical application, always pass switch `-Wl,--subsystem,windows` so that the application does not create a console window when it is launched.
 
-- When using Go's `build` command to build a graphical Go application, always pass switch `-ldflags "-H windowsgui"` so that the application does not create a console window when it is launched.
+- When building a graphical Go application that uses the Fyne GUI toolkit, always modify environment variable `PATH` to use MinGW tools as described below in section *Executing MinGW/MSYS2 Applications*.
+
+- When building a graphical Go application, always pass switch `-ldflags "-H windowsgui"` so that the application does not create a console window when it is launched.
 
 
 # Executing MinGW/MSYS2 Applications

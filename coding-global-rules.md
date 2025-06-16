@@ -18,7 +18,7 @@
 - If you write Python code that has pathnames embedded in the code, the pathnames should follow the same rules as above for pathnames in Bash commands.
 
 
-# Newline Conventions in New Files
+# Newline Conventions
 
 - All new files you create should use Unix-style newlines (a single line-feed character) instead of Windows-style newlines (a carriage return and line-feed pair).
 
@@ -65,7 +65,7 @@
 
 - When running commands to build executables, always make the executable name end with `.exe`, because this is a Windows system.
 
-- When building a graphical Go application that uses the Fyne GUI toolkit, always modify environment variable `PATH` to use MinGW tools as described below in section *Executing MinGW/MSYS2 Applications*.
+- When building a graphical Go application that uses the Fyne GUI toolkit, always modify environment variable `PATH` to use MinGW tools as described below in section [Executing MinGW/MSYS2 Applications](#executing-mingwmsys2-applications).
 
 - When building a graphical Go application, always pass switch `-ldflags "-H windowsgui"` so that the application does not create a console window when it is launched.
 
@@ -83,13 +83,13 @@
 
 - You have no way to see the GUI of a graphical application, which makes it difficult for you to test graphical applications.
 
-- You must test graphical applications as follows:
+- Thus, you must test graphical applications as follows:
 
-  1. Tell the user to evaluate the graphical application's GUI before you launch it.
+  1. Tell the user to test the graphical application's GUI before you launch it.
 
-  2. Launch the graphical application from Bash and wait for it to terminate.  If it produces any error messages on standard error or standard output, you will see them just as you see the output of a non-graphical application.
+  2. Launch the graphical application, and wait for it to terminate.  If it produces any error messages on standard error or standard output, you will see them just as you see the output of a non-graphical application.
 
-  3. After the app terminates, ask the user for their evaluation feedback, then wait for the user to enter their feedback.
+  3. After the app terminates, ask the user for their testing feedback, then wait for the user to enter their feedback.
 
   4. Take the appropriate actions based on the user's feedback and any output produced by the application.
 

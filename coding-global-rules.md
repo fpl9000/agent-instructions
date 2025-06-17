@@ -51,10 +51,10 @@
 
 - In Bash scripts, local variables in Bash functions must start with a leading underscore to avoid accidentally shadowing global variables.  For example: `local _COUNTER=0`.
 
-- In Bash scripts use the new test command (`[[ ... ]]`) instead of the traditional test command (`[... ]`).  Be careful to use the proper argument syntax for the new test command, such as using `&&` instead of `-a` to indicate Boolean AND operations, and `||` instead of `-o` to indicate Boolean OR operations.
+- In Bash scripts use the new test command (`[[ ... ]]`) instead of the traditional test command (`[ ... ]`).  Be careful to use the proper argument syntax for the new test command, such as using `&&` instead of `-a` to indicate Boolean AND operations, and `||` instead of `-o` to indicate Boolean OR operations.
 
 
-## Writing Comments in Source Code
+## Comments in Source Code
 
 - Always write well-commented source code.
 

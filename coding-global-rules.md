@@ -6,26 +6,38 @@
 
 - Most Linux commands are available in the Bash shell, such as `cd`, `ls`, `grep`, `find`, `wc`, `cp`, `mv`, `rm`, `sed`, `awk`, etc.
 
+
+## Pathnames in Commands
+
 - When giving pathnames to commands within the Bash shell, always use forward slashes as the directory separator, even though this is a Windows system.
 
 - Absolute pathnames in Bash commands should start with a Windows drive letter and a forward slash. For example: `C:/path/to/file`.
 
 
-# Executing Python Code
+## Executing Python Code
 
 - If you need to execute Python code, Python version 3.13.3 is available by running command `python`.
 
 - If you write Python code that has pathnames embedded in the code, the pathnames should follow the same rules as above for pathnames in Bash commands.
 
 
-# Newline Conventions
+## Executing MinGW/MSYS2 Applications
+
+- If you need to execute MinGW/MSYS2 applications, first modify environment variable `PATH` to have folder `/cygdrive/c/apps/msys64/mingw64/bin` at the front.  Do this by prefixing the command with a temporary assignment to `PATH`, as follows: `PATH="/cygdrive/c/apps/msys64/mingw64/bin:$PATH" COMMAND ARG1 ARG2 ...`.  Do not make persistent changes to `PATH`.
+
+- If modifying `PATH` as described in the previous item does not work, next you should try launching the MSYS2 Bash shell by executing `/cygdrive/c/apps/msys64/usr/bin/bash.exe --login` and running the MinGW/MSYS2 application in that shell.  In this case, the `--login` switch is necessary, because it makes Bash source my `~/.bash_profile` script, which sets `PATH` correctly.
+
+
+# Editing Files
+
+## Newline Conventions
 
 - All new files you create should use Unix-style newlines (a single line-feed character) instead of Windows-style newlines (a carriage return and line-feed pair).
 
 - When editing existing files, always use the same newline convention as the rest of the file.
 
 
-# Writing Source Code
+## Writing Source Code
 
 - Keep lines of source code less than 100 columns wide.
 
@@ -42,7 +54,7 @@
 - In Bash scripts use the new test command (`[[ ... ]]`) instead of the traditional test command (`[... ]`).  Be careful to use the proper argument syntax for the new test command, such as using `&&` instead of `-a` to indicate Boolean AND operations, and `||` instead of `-o` to indicate Boolean OR operations.
 
 
-# Writing Comments in Source Code
+## Writing Comments in Source Code
 
 - Always write well-commented source code.
 
@@ -65,18 +77,11 @@
 
 - When running commands to build executables, always make the executable name end with `.exe`, because this is a Windows system.
 
-- When building a graphical Go application that uses the Fyne GUI toolkit, always modify environment variable `PATH` to use MinGW tools as described below in section [Executing MinGW/MSYS2 Applications](#executing-mingwmsys2-applications).
+- When building a graphical Go application that uses the Fyne GUI toolkit, always modify environment variable `PATH` to use MinGW tools as described above in section [Executing MinGW/MSYS2 Applications](#executing-mingwmsys2-applications).
 
 - When building a graphical Go application, always pass switch `-ldflags "-H windowsgui"` so that the application does not create a console window when it is launched.
 
 - When using GCC to build a graphical application, always pass switch `-Wl,--subsystem,windows` so that the application does not create a console window when it is launched.
-
-
-# Executing MinGW/MSYS2 Applications
-
-- If you need to execute MinGW/MSYS2 applications, first modify environment variable `PATH` to have folder `/cygdrive/c/apps/msys64/mingw64/bin` at the front.  Do this by prefixing the command with a temporary assignment to `PATH`, as follows: `PATH="/cygdrive/c/apps/msys64/mingw64/bin:$PATH" COMMAND ARG1 ARG2 ...`.  Do not make persistent changes to `PATH`.
-
-- If modifying `PATH` as described in the previous item does not work, next you should try launching the MSYS2 Bash shell by executing `/cygdrive/c/apps/msys64/usr/bin/bash.exe --login` and running the MinGW/MSYS2 application in that shell.  In this case, the `--login` switch is necessary, because it makes Bash source my `~/.bash_profile` script, which sets `PATH` correctly.
 
 
 # Testing Graphical Applications

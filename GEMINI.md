@@ -2,31 +2,40 @@
 
 - This computer is a Windows 11 system with Cygwin Bash installed.
 
-- The tool you use to execute commands executes them using the Cygwin Bash shell.  Give Bash commands to this tool.  You do not need to invoke Bash in your commands.
+- The `shell` tool that you use to spawn shell commands uses `cmd.exe`, because this is a Windows system.
 
-- Most Linux commands are available in the Bash shell, such as `cd`, `ls`, `grep`, `find`, `wc`, `cp`, `mv`, `rm`, `sed`, `awk`, etc.
+- When you need to execute a shell command, always execute it by running command `bash --login C:/temp/gemini.sh`, where `C:/temp/gemini.sh` is a Bash shell script written by you and containing the Bash command(s) you need to execute.
+
+  - The `--login` switch makes Bash source my `~/.bash_profile` script, which sets up the environment correctly.
+
+  - Most Linux commands are available in the Bash shell, such as `cd`, `ls`, `grep`, `find`, `wc`, `cp`, `mv`, `rm`, `sed`, `awk`, etc.
+
+  - If you need to execute the `rm` command using Bash, always execute it using it's full pathname (`/bin/rm`), which avoids a confirmation prompt displayed by my personal `rm` wrapper script.
+
+  - After executing `bash --login C:/temp/gemini.sh`, you should not delete file `gemini.sh`, but the next time you write Bash commands into that file, you must overwrite all of its contents with the new commands.
 
 
-## Pathnames in Commands
+## Pathnames in Bash Commands
 
-- When giving pathnames to commands within the Bash shell, always use forward slashes as the directory separator, even though this is a Windows system.
+- When giving pathnames to commands executed by the Bash shell, always use forward slashes as the directory separator, even though this is a Windows system.
 
 - Absolute pathnames in Bash commands should start with a Windows drive letter and a forward slash. For example: `C:/path/to/file`.
 
 
 ## Executing Python Code
 
-- If you need to execute Python code, Python version 3.13.3 is available by running command `python`.
+- If you need to execute Python code, Python version 3.13.3 is available by running command `python C:/temp/gemini.py`, where `C:/temp/gemini.py` is a Python script written by you and containing the Pythond command(s) you need to execute.
 
-- If you write Python code that has pathnames embedded in the code, the pathnames should follow the same rules as above for pathnames in Bash commands.
+- As with Bash commands, you do not need to delete `C:/temp/gemini.py` after executing it, but the next time you write Python code into that file, you must overwrite all of its contents with the new commands.
+
+- If the Python code in file `C:/temp/gemini.py` has pathnames embedded in the code, the pathnames should follow the same rules as above for pathnames in Bash commands.
 
 
 ## Executing MinGW/MSYS2 Applications
 
 - If you need to execute MinGW/MSYS2 applications, first modify environment variable `PATH` to have folder `/cygdrive/c/apps/msys64/mingw64/bin` at the front.  Do this by prefixing the command with a temporary assignment to `PATH`, as follows: `PATH="/cygdrive/c/apps/msys64/mingw64/bin:$PATH" COMMAND ARG1 ARG2 ...`.  Do not make persistent changes to `PATH`.
 
-- If modifying `PATH` as described in the previous item does not work, next you should try launching the MSYS2 Bash shell by executing `/cygdrive/c/apps/msys64/usr/bin/bash.exe --login` and running the MinGW/MSYS2 application in that shell.  In this case, the `--login` switch is necessary, because it makes Bash source my `~/.bash_profile` script, which sets `PATH` correctly.
-
+- If modifying `PATH` as described in the previous item does not work, next you should try launching the MSYS2 Bash shell by executing `/cygdrive/c/apps/msys64/usr/bin/bash.exe --login` and running the MinGW/MSYS2 application in that shell.  In this case, the `--login` switch is necessary, because it makes Bash source my `~/.bash_profile` script, which sets `PATH` correctly. a
 
 # Editing Files
 
@@ -51,7 +60,7 @@
 
 - In Bash scripts, local variables in Bash functions must start with a leading underscore to avoid accidentally shadowing global variables.  For example: `local _COUNTER=0`.
 
-- In Bash scripts use the new test command (`[[ ... ]]`) instead of the traditional test command (`[ ... ]`).  Be careful to use the proper argument syntax for the new test command, such as using `&&` instead of `-a` to indicate Boolean AND operations, and `||` instead of `-o` to indicate Boolean OR operations.
+- In Bash scripts use the new test command (`[[ ... ]]`) instead of the traditional test command (`[... ]`).  Be careful to use the proper argument syntax for the new test command, such as using `&&` instead of `-a` to indicate Boolean AND operations, and `||` instead of `-o` to indicate Boolean OR operations.
 
 
 ## Comments in Source Code
@@ -67,6 +76,8 @@
 - Comments can appear on the same line as code only if the comment is very short.  In this case, the comment is exempt from the rule that it must be a complete sentence.
 
 - Comments should explain the purpose and rationale of the code and not simply restate what the code does.
+
+- Do not talk to the user through comments.
 
 - Aim to have nearly the same number of lines of comments as lines of code.  This is a guideline not a hard and fast rule.
 

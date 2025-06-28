@@ -2,15 +2,17 @@
 
 - This computer is a Windows 11 system with Cygwin Bash installed.
 
-- The `shell` tool that you use to execute shell commands uses `cmd.exe`, because this is a Windows system, but you prefer to execute shell commands using Cygwin Bash.  The next item explains how you will use Bash instead of `cmd.exe`.
+- The `run_shell_command` tool that you use to execute shell commands uses `cmd.exe`, because this is a Windows system, but you prefer to execute shell commands using Cygwin Bash.  The next item explains how you will use Bash instead of `cmd.exe`.
 
 - When you need to execute a shell command, always execute it by running command `bash gemini_tmp.sh`, where `gemini_tmp.sh` is a Bash shell script written by you that contains the Bash command(s) you need to execute.  Additional details:
+
+  - Even though tool `run_shell_command` uses `cmd.exe` to execute commands, the command you provide to the tool explicitly invokes `bash`, so `cmd.exe` is simply used to "trampoline" into Bash.
 
   - Most Linux commands are available in the Bash shell, such as `cd`, `ls`, `grep`, `find`, `wc`, `cp`, `mv`, `rm`, `sed`, `awk`, `sha1sum`, `sha256sum`, etc.
 
   - The last line of script `gemini_tmp.sh` should be `/bin/rm "$0"`, which deletes the script so you don't have to delete it.
 
-  - If you need to execute the `rm` command using Bash, always execute it using its full pathname (`/bin/rm`), which avoids a confirmation prompt displayed by my personal `rm` wrapper script.
+  - If you need to execute the `rm` command using Bash, always execute it using its full pathname (`/bin/rm`).  This avoids a confirmation prompt displayed by my personal `rm` wrapper script.
 
 
 ## Pathnames in Bash Commands

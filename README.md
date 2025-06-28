@@ -1,6 +1,6 @@
 # agent-instructions
 
-A collection of GitHub markdown files containing AI agent instructions for various use cases.
+A collection of GitHub markdown files containing AI agent instructions for various coding agents.
 
 - `cline-global-rules.md` — Global rules for Cline on Windows using Cygwin Bash as the command shell.
 

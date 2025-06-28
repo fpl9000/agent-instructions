@@ -2,17 +2,15 @@
 
 - This computer is a Windows 11 system with Cygwin Bash installed.
 
-- The `shell` tool that you use to spawn shell commands uses `cmd.exe`, because this is a Windows system.
+- The `shell` tool that you use to execute shell commands uses `cmd.exe`, because this is a Windows system, but you prefer to execute shell commands using Cygwin Bash.  The next item explains how you will use Bash instead of `cmd.exe`.
 
-- When you need to execute a shell command, always execute it by running command `bash --login C:/temp/gemini.sh`, where `C:/temp/gemini.sh` is a Bash shell script written by you and containing the Bash command(s) you need to execute.
+- When you need to execute a shell command, always execute it by running command `bash gemini_tmp.sh`, where `gemini_tmp.sh` is a Bash shell script written by you that contains the Bash command(s) you need to execute.  Additional details:
 
-  - The `--login` switch makes Bash source my `~/.bash_profile` script, which sets up the environment correctly.
+  - Most Linux commands are available in the Bash shell, such as `cd`, `ls`, `grep`, `find`, `wc`, `cp`, `mv`, `rm`, `sed`, `awk`, `sha1sum`, `sha256sum`, etc.
 
-  - Most Linux commands are available in the Bash shell, such as `cd`, `ls`, `grep`, `find`, `wc`, `cp`, `mv`, `rm`, `sed`, `awk`, etc.
+  - The last line of script `gemini_tmp.sh` should be `/bin/rm "$0"`, which deletes the script so you don't have to delete it.
 
-  - If you need to execute the `rm` command using Bash, always execute it using it's full pathname (`/bin/rm`), which avoids a confirmation prompt displayed by my personal `rm` wrapper script.
-
-  - After executing `bash --login C:/temp/gemini.sh`, you should not delete file `gemini.sh`, but the next time you write Bash commands into that file, you must overwrite all of its contents with the new commands.
+  - If you need to execute the `rm` command using Bash, always execute it using its full pathname (`/bin/rm`), which avoids a confirmation prompt displayed by my personal `rm` wrapper script.
 
 
 ## Pathnames in Bash Commands

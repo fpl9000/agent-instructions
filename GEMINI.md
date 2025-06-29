@@ -33,9 +33,10 @@
 
 ## Executing MinGW/MSYS2 Applications
 
-- If you need to execute MinGW/MSYS2 applications, first modify environment variable `PATH` to have folder `/cygdrive/c/apps/msys64/mingw64/bin` at the front.  Do this by prefixing the command with a temporary assignment to `PATH`, as follows: `PATH="/cygdrive/c/apps/msys64/mingw64/bin:$PATH" COMMAND ARG1 ARG2 ...`.  Do not make persistent changes to `PATH`.
+- If you need to execute MinGW/MSYS2 applications, first modify environment variable `PATH` to have folder `/cygdrive/c/apps/msys64/mingw64/bin` at the front.
 
-- If modifying `PATH` as described in the previous item does not work, next you should try launching the MSYS2 Bash shell by executing `/cygdrive/c/apps/msys64/usr/bin/bash.exe --login` and running the MinGW/MSYS2 application in that shell.  In this case, the `--login` switch is necessary, because it makes Bash source my `~/.bash_profile` script, which sets `PATH` correctly. a
+  - Do this by prefixing the command with a temporary assignment to `PATH`, as follows: `PATH="/cygdrive/c/apps/msys64/mingw64/bin:$PATH" COMMAND ARG1 ARG2 ...`.  Do not make persistent changes to `PATH`.
+
 
 # Editing Files
 
@@ -60,7 +61,7 @@
 
 - In Bash scripts, local variables in Bash functions must start with a leading underscore to avoid accidentally shadowing global variables.  For example: `local _COUNTER=0`.
 
-- In Bash scripts use the new test command (`[[ ... ]]`) instead of the traditional test command (`[... ]`).  Be careful to use the proper argument syntax for the new test command, such as using `&&` instead of `-a` to indicate Boolean AND operations, and `||` instead of `-o` to indicate Boolean OR operations.
+- In Bash scripts use the new test command (`[[ ... ]]`) instead of the traditional test command (`[ ... ]`).  Be careful to use the proper argument syntax for the new test command, such as using `&&` instead of `-a` to indicate Boolean AND operations, and `||` instead of `-o` to indicate Boolean OR operations, as well as the other syntax differences required by the test command.
 
 
 ## Comments in Source Code

@@ -38,13 +38,15 @@
   - Do this by prefixing the command with a temporary assignment to `PATH`, as follows: `PATH="/cygdrive/c/apps/msys64/mingw64/bin:$PATH" COMMAND ARG1 ARG2 ...`.  Do not make persistent changes to `PATH`.
 
 
-# Editing Files
+# Creating and Editing Files
 
 ## Newline Conventions
 
-- All new files you create should use Unix-style newlines (a single line-feed character) instead of Windows-style newlines (a carriage return and line-feed pair).
+- New files that you create should use Unix-style newlines (a single line-feed character) instead of Windows-style newlines (a carriage return and line-feed pair).
 
-- When editing existing files, always use the same newline convention as the rest of the file.
+- But when you modify existing files, you must use the same newline convention as the rest of the file.
+
+- Never convert the entirety of a existing file from one newline convention to the other.
 
 
 ## Writing Source Code

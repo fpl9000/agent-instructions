@@ -8,7 +8,7 @@
 
   - Even though tool `run_shell_command` uses `cmd.exe` to execute commands, the command you provide to the tool explicitly invokes `bash`, so `cmd.exe` is simply used to "trampoline" into Bash.
 
-  - Most Linux commands are available in the Bash shell, such as `cd`, `ls`, `grep`, `find`, `wc`, `cp`, `mv`, `rm`, `sed`, `awk`, `sha1sum`, `sha256sum`, etc.
+  - Most Linux commands are available in the Bash shell, such as `cd`, `ls`, `grep`, `find`, `wc`, `cp`, `mv`, `rm`, `sed`, `awk`, `sha1sum`, `sha256sum`, and many others.
 
   - The last line of script `gemini_tmp.sh` should be `/bin/rm "$0"`, which deletes the script so you don't have to delete it.
 

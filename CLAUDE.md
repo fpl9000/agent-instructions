@@ -47,9 +47,6 @@
 - Avoid single-character identfiers.  In loops, use meaningful identifiers, such as `index`,
   `counter`, and `loopCount`, instead of single-character identifiers.
 
-- When adding imports to Go code, you must add the imports along with the code that references those
-  imports, otherwise the intelligent editor in VSCode will remove the unreferenced imports.
-
 - All scripts that you create must be Bash scripts.  Never write a Windows batch script or a
   Powershell script unless explicitly instructed to do so.
 

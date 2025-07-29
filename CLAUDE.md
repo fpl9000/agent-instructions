@@ -29,15 +29,13 @@
 
 ## Newline Conventions
 
-- New files that you create should use Unix-style newlines (a single line-feed character) instead of
-  Windows-style newlines (a carriage return and line-feed pair).
+- When you create new files, you should use Unix-style newlines (a single line-feed character).
 
-- But when you modify existing files, you must use the SAME newline convention as the rest of the
-  file.
+- When you modify existing files, you must use the same newline convention as the rest of the file.
 
-- Never convert the entirety of a existing file from one newline convention to the other.  If you
-  have a compelling reason to do this, confirm the operation with the user first, even if
-  auto-confirmation is enabled.
+- Never convert an existing file from one newline convention to the other.  If you have a compelling
+  reason to do this, confirm the operation with the user first, even if auto-confirmation is
+  enabled.
 
 
 ## Writing Source Code
@@ -54,12 +52,12 @@
   `FILENAME="file.txt"`, etc.
 
 - In Bash scripts, local variables in Bash functions must start with a leading underscore to avoid
-  accidentally shadowing global variables.  For example: `local _COUNTER=0`.
+  shadowing global variables.  For example: `local _COUNTER=0`.
 
-- In Bash scripts use the new test command (`[[ ... ]]`) instead of the traditional test command (`[
-  ... ]`).  Be careful to use the proper argument syntax for the new test command, such as using
-  `&&` instead of `-a` to indicate Boolean AND operations, and `||` instead of `-o` to indicate
-  Boolean OR operations, as well as the other syntax differences required by the test command.
+- In Bash scripts use the new test command (`[[ ... ]]`) instead of the traditional one (`[ ... ]`).
+  Use the proper argument syntax for the new test command, such as using `&&` instead of `-a` to
+  indicate Boolean AND operations, and `||` instead of `-o` to indicate Boolean OR operations, as
+  well as the other syntax differences required by the new test command.
 
 
 ## Comments in Source Code

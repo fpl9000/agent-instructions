@@ -52,7 +52,8 @@
   `FILENAME="file.txt"`, etc.
 
 - In Bash scripts, local variables in Bash functions must start with a leading underscore to avoid
-  shadowing global variables.  For example: `local _COUNTER=0`.
+  shadowing global variables.  For example: `local _COUNTER=0`.  Conversely, never use a leading
+  underscore in a global variable.
 
 - In Bash scripts use the new test command (`[[ ... ]]`) instead of the traditional one (`[ ... ]`).
   Use the proper argument syntax for the new test command, such as using `&&` instead of `-a` to

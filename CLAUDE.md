@@ -5,8 +5,8 @@
 - Most Linux commands are available in the Git Bash shell, such as `cd`, `ls`, `grep`, `find`, `wc`,
   `cp`, `mv`, `rm`, `sed`, `awk`, `sha1sum`, `sha256sum`, and many others.
 
-- If you need to execute the `rm` command using Bash, always execute it using its full pathname
-  (`/bin/rm`).  This avoids a confirmation prompt displayed by my personal `rm` wrapper script.
+- If you need to execute the `rm` command using Bash, always execute it using its full pathname:
+  `/bin/rm`.  This avoids a confirmation prompt displayed by my personal `rm` wrapper script.
 
 
 ## Pathnames in Bash Commands
@@ -16,7 +16,8 @@
 
 - Absolute pathnames in Bash commands should start with a slash, followed by a Windows drive letter,
   and then a forward slash. For example: `/c/path/to/file`.  If this fails with a 'File not found'
-  error (or similar), try using a drive letter with a colon, as follows: `C:/path/to/file`.
+  error (or something similar), try starting the pathname with a drive letter followed by a colon,
+  as follows: `C:/path/to/file`.
 
 
 ## Executing Python Code

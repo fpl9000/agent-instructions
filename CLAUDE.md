@@ -15,9 +15,10 @@
   directory separator, even though this is a Windows system.
 
 - Absolute pathnames in Bash commands should start with a slash, followed by a Windows drive letter,
-  and then a forward slash. For example: `/c/path/to/file`.  If this fails with a 'File not found'
-  error (or something similar), try starting the pathname with a drive letter followed by a colon,
-  as follows: `C:/path/to/file`.
+  and then a forward slash. For example: `/c/path/to/file`.
+
+  - If this fails with a 'File not found' error (or something similar), try starting the pathname
+    with a drive letter followed by a colon, as follows: `C:/path/to/file`.
 
 
 ## Executing Python Code
@@ -30,7 +31,7 @@
 
 ## Newline Conventions
 
-- When you create new files, you should use Unix-style newlines (a single line-feed character).
+- When you create new files, you should use UNIX-style newlines (a single line-feed character).
 
 - When you modify existing files, you must use the same newline convention as the rest of the file.
 

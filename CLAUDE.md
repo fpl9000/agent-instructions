@@ -79,13 +79,32 @@
 - Comments should explain the purpose and rationale of the code and not simply restate what the code
   does.
 
-- Do not talk to the user through comments.
+- Do not talk to the user through comments in code.
 
 - Aim to have nearly the same number of lines of comments as lines of code.  This is a guideline not
   a hard and fast rule.
 
 - Do not comment trivial code, such as Python and Go `import` statements or the initialization of
   local variables, unless the comment explains something important for a developer to understand.
+
+
+## Writing Skills
+
+A skill is a collections of files typically in ZIP format with the extension `.skill` that can be
+read at inference-time to learn new skills.  When you write a skill, follow these guidelines:
+
+- The skill syntax specification is available at https://agentskills.io.
+
+- Do not add any directories to a skill other than the standard ones defined by the Agent Skills
+  specification: `scripts`, `references`, and `assets`.
+
+- Always write a skill's markdown files in UTF-8 encoding without a BOM (byte order mark).
+  Non-markdown files might need to deviate from this rule, such as scripts that do not work when
+  written a non-ANSI encoding.
+
+- Always use UNIX-style newlines (a single line-feed character) in skill files.
+
+- The final ZIP'ed skill file should always have the `.skill` file extension.
 
 
 # Building Applications

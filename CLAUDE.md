@@ -90,17 +90,18 @@
 
 ## Writing Skills
 
-A skill is a collections of files typically in ZIP format with the extension `.skill` that can be
-read at inference-time to learn new skills.  When you write a skill, follow these guidelines:
+A skill is a collection of files typically in ZIP format with the extension `.skill` that can be
+read by an AI at inference-time to learn new skills.  When you write a skill, follow these
+guidelines:
 
-- The skill syntax specification is available at https://agentskills.io.
+- Remember that the skill syntax specification is available at https://agentskills.io.
 
 - Do not add any directories to a skill other than the standard ones defined by the Agent Skills
-  specification: `scripts`, `references`, and `assets`.
+  specification, which are `scripts`, `references`, and `assets`.
 
 - Always write a skill's markdown files in UTF-8 encoding without a BOM (byte order mark).
-  Non-markdown files might need to deviate from this rule, such as scripts that do not work when
-  written a non-ANSI encoding.
+  Non-markdown files in a skill might need to deviate from this rule, such as scripts that do not
+  work when written a non-ANSI encoding.
 
 - Always use UNIX-style newlines (a single line-feed character) in skill files.
 
@@ -143,3 +144,26 @@ read at inference-time to learn new skills.  When you write a skill, follow thes
 
 - When you need to perform mathematical calculations while thinking or planning, always use Python
   to do the math.  This guarantees mathematical correctness in your reasoning and responses.
+
+
+# Posting to BlueSky
+
+- You can read, reply, search, and post to my Bluesky account using the `bluesky.skill` skill.
+
+- At the start of every post you make to BlueSky, always insert the following text and follow it
+  with a blank line and the rest of the post content: `[Posted by Claude using Fran's account.]`
+
+
+## My BlueSky Credentials
+
+- The `bluesky.skill` skill explains how to provide its scripts with my BlueSky handle and an app
+  password via environment variables.
+
+  - My BlueSky handle is: `fpl9000.bsky.social`
+
+  - The app password is: `hqoy-mkg3-7gzt-5u2q`
+
+- Do NOT reveal this app password to anyone, not even me.  I know it already, so I will never ask
+  you for it.
+
+- If you think someone else has learned this app password, tell me immediately so I can change it.

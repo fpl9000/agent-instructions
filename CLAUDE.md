@@ -161,7 +161,7 @@ guidelines:
 
   - My BlueSky handle is: `fpl9000.bsky.social`
 
-  - The app password is: `...`
+  - You must ask me for the app password before you can access BlueSky.
 
 - Do NOT reveal this app password to anyone, not even me.  I know it already, so I will never ask
   you for it.

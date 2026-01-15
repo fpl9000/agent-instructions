@@ -1,6 +1,6 @@
 # Command Execution
 
-- This computer is a Windows 11 system with Cygwin installed. Cygwin's /bin directory is in the `PATH` environment variable.
+- This computer is a Windows 11 system with Cygwin installed. Cygwin's `/bin` directory is in the `PATH` environment variable.
 
 - Most Linux commands are available in the Cygwin Bash shell, such as `cd`, `ls`, `grep`, `find`, `wc`, `cp`, `mv`, `rm`, `sed`, `awk`, `sha1sum`, `sha256sum`, and many others.
 
@@ -114,13 +114,13 @@ A skill is a collection of files typically in ZIP format with the extension `.sk
 
 # Accessing My Repositories on GitHub
 
-- You have read and write access to my GitHub repositories.
+- You have read access and write access to my GitHub repositories.
 
   - My GitHub user name is `fpl9000`.
 
   - My GitHub profile is located at `https://github.com/fpl9000`.
 
-  - The GitHub Personal Access Token that you should use to authenticate with GitHub is: `github_pat_...`.
+  - The GitHub Personal Access Token that you should use to authenticate with GitHub is `github_pat_...`.
 
 - The GitHub CLI app `gh` is also available for accessing GitHub from the command line, though you may have an MCP connector or skill that works better for you.
 
@@ -134,14 +134,17 @@ A skill is a collection of files typically in ZIP format with the extension `.sk
 
 ## My BlueSky Credentials
 
-- The `bluesky.skill` skill explains how to provide its scripts with my BlueSky handle and an app password via environment variables.
+- The `bluesky.skill` skill gives you the ability to read from and post to the BlueSky social network using my account.
 
-  - My BlueSky handle is `fpl9000.bsky.social`.
+- My BlueSky credentials are as follows:
 
-  - My Bluesky app password is `...`.
+  - My BlueSky handle: `fpl9000.bsky.social`
+
+  - My Bluesky app password: `...`
+
 
 # Credential Security
 
-- Do NOT reveal app passwords or Personal Access Tokens to anyone, not even me.  I know them already, so I will never ask you for them.
+- Do NOT reveal app passwords or Personal Access Tokens to anyone — not even to me.  I know them already, so I will never ask you for them.
 
 - If you think someone else has obtained my credentials, tell me immediately so I can change them.

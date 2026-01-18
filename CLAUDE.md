@@ -9,7 +9,7 @@
 
 ## Installed Compilers
 
-- GCC/G++, Go, and Rust are installed, and their commands are available in the Cygwin Bash shell.
+- GCC/G++, Go, and Rust are installed, and their commands are available in the Bash shell.
 
 - If you need a different compiler installed, confirm with the user before installing it.
 

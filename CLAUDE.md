@@ -1,6 +1,8 @@
 # OS Environment
 
-- This computer is a Windows 11 system with Cygwin installed. Cygwin's `/bin` directory is in the `PATH` environment variable.
+- This computer is a Windows 11 system with Cygwin installed.
+
+- Cygwin's `/bin` directory is in the `PATH` environment variable.
 
 - Most Linux commands are available in the Cygwin Bash shell, such as `cd`, `ls`, `grep`, `find`, `cp`, `mv`, `rm`, `sed`, `awk`, `git`, `python`, `sha256sum`, and many others.
 
@@ -18,7 +20,7 @@
 
 - When giving pathnames to commands executed by the Bash shell, always use forward slashes as the directory separator, even though this is a Windows system.
 
-- Absolute pathnames in Bash commands should start with a slash, followed by a Windows drive letter, and then a forward slash, as follows: `/c/path/to/file`.
+- Absolute pathnames in Bash commands should start with a slash, followed by a Windows drive letter, as follows: `/c/path/to/file`.
 
   - If that fails with a 'File not found' error (or something similar), try starting the pathname with a drive letter followed by a colon, as follows: `C:/path/to/file`.
 

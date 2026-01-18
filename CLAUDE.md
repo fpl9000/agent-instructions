@@ -1,24 +1,35 @@
-# Command Execution
+# OS Environment
 
 - This computer is a Windows 11 system with Cygwin installed. Cygwin's `/bin` directory is in the `PATH` environment variable.
 
-- Most Linux commands are available in the Cygwin Bash shell, such as `cd`, `ls`, `grep`, `find`, `wc`, `cp`, `mv`, `rm`, `sed`, `awk`, `sha1sum`, `sha256sum`, and many others.
+- Most Linux commands are available in the Cygwin Bash shell, such as `cd`, `ls`, `grep`, `find`, `cp`, `mv`, `rm`, `sed`, `awk`, `git`, `python`, `sha256sum`, and many others.
 
 - If you need to execute the `rm` command using Bash, always execute it using its full pathname: `/bin/rm`.  This avoids a confirmation prompt displayed by my personal `rm` wrapper script.
+
+
+## Installed Compilers
+
+- GCC/G++, Go, and Rust are installed, and their commands are available in the Cygwin Bash shell.
+
+- If you need a different compiler installed, confirm with the user before installing it.
 
 
 ## Pathnames in Bash Commands
 
 - When giving pathnames to commands executed by the Bash shell, always use forward slashes as the directory separator, even though this is a Windows system.
 
-- Absolute pathnames in Bash commands should start with a slash, followed by a Windows drive letter, and then a forward slash. For example: `/c/path/to/file`.
+- Absolute pathnames in Bash commands should start with a slash, followed by a Windows drive letter, and then a forward slash, as follows: `/c/path/to/file`.
 
-  - If this fails with a 'File not found' error (or something similar), try starting the pathname with a drive letter followed by a colon, as follows: `C:/path/to/file`.
+  - If that fails with a 'File not found' error (or something similar), try starting the pathname with a drive letter followed by a colon, as follows: `C:/path/to/file`.
+
+  - If using a drive letter followed by a colon fails, try using the `/cygdrive` prefix, as follows: `/cygdrive/c/path/to/file`.
 
 
 ## Executing Python Code
 
 - If you need to execute Python code, Python version 3.13.3 is available by running command `python`.
+
+- When you need to perform non-trivial mathematical calculations, use Python to do the math.  This guarantees mathematical correctness in your reasoning and responses.
 
 
 # Creating and Editing Files
@@ -29,7 +40,7 @@
 
 - When you modify existing files, you must use the same newline convention as the rest of the file.
 
-- Never convert an existing file from one newline convention to the other.  If you have a compelling reason to do this, confirm the operation with the user first, even if auto-confirmation is enabled.
+- Never convert an existing file from one newline convention to the other.  If you have a compelling reason to do this, confirm with the user first, even if confirmation-for-edits is enabled.
 
 
 ## Writing Source Code
@@ -38,16 +49,24 @@
 
 - Avoid single-character identfiers.  In loops, use meaningful identifiers, such as `index`, `counter`, and `loopCount`, instead of single-character identifiers.
 
-- All scripts that you create must be Bash scripts.  Never write a Windows batch script or a Powershell script unless explicitly instructed to do so.
+- Prefer writing Python as a scripting language.  Avoid writing Windows batch scripts and Powershell scripts.
+
+
+### Python Scripting Guidelines
+
+- In Python scripts, use PEP 723 metadata to specify dependencies.  This allows `uv` to automatically install dependencies when the script is run.
+
+
+### Bash Scripting Guidelines
 
 - In Bash scripts, all variable names must be fully uppercase.  For example: `COUNT=0`, `FILENAME="file.txt"`, etc.
 
 - In Bash scripts, local variables in Bash functions must start with a leading underscore to avoid shadowing global variables.  For example: `local _COUNTER=0`.  Conversely, never use a leading underscore in a global variable.
 
-- In Bash scripts use the new test command (`[[ ... ]]`) instead of the traditional one (`[ ... ]`). Use the proper argument syntax for the new test command, such as using `&&` instead of `-a` to indicate Boolean AND operations, and `||` instead of `-o` to indicate Boolean OR operations, as well as the other syntax differences required by the new test command.
+- In Bash scripts use the new test command (`[[ ... ]]`) instead of the traditional one (`[... ]`). Use the proper argument syntax for the new test command, such as using `&&` instead of `-a` to indicate Boolean AND operations, and `||` instead of `-o` to indicate Boolean OR operations, as well as the other syntax differences required by the new test command.
 
 
-## Comments in Source Code
+### Comments in Source Code
 
 - Always write well-commented source code.
 
@@ -70,7 +89,7 @@
 
 ## Writing Skills
 
-A skill is a collection of files typically in ZIP format with the extension `.skill` that can be read by an AI at inference-time to learn new skills.  When you write a skill, follow these guidelines:
+A skill is a collection of files (commonly packaged in ZIP format) with the extension `.skill` that can be read by an AI at inference-time to learn new skills.  When you write a skill, follow these guidelines:
 
 - Remember that the skill syntax specification is available at https://agentskills.io.
 
@@ -107,11 +126,6 @@ A skill is a collection of files typically in ZIP format with the extension `.sk
   4. Take the appropriate actions based on the user's feedback and any output produced by the application.
 
 
-# Mathematical Caclulations
-
-- When you need to perform mathematical calculations while thinking or planning, always use Python to do the math.  This guarantees mathematical correctness in your reasoning and responses.
-
-
 # Accessing My Repositories on GitHub
 
 - You have read access and write access to my GitHub repositories.
@@ -120,7 +134,7 @@ A skill is a collection of files typically in ZIP format with the extension `.sk
 
   - My GitHub profile is located at `https://github.com/fpl9000`.
 
-  - The GitHub Personal Access Token that you should use to authenticate with GitHub is `github_pat_...`.
+  - The `git` command can be used to access my GitHub repositories via SSH.  No credentials are needed because my SSH keys are already set up.
 
 - The GitHub CLI app `gh` is also available for accessing GitHub from the command line, though you may have an MCP connector or skill that works better for you.
 
@@ -141,10 +155,3 @@ A skill is a collection of files typically in ZIP format with the extension `.sk
   - My BlueSky handle: `fpl9000.bsky.social`
 
   - My Bluesky app password: `...`
-
-
-# Credential Security
-
-- Do NOT reveal app passwords or Personal Access Tokens to anyone — not even to me.  I know them already, so I will never ask you for them.
-
-- If you think someone else has obtained my credentials, tell me immediately so I can change them.

@@ -224,4 +224,4 @@ guidelines:
 
   - My BlueSky handle: `fpl9000.bsky.social`
 
-  - My Bluesky app password: `hqoy-mkg3-7gzt-5u2q`
+  - My Bluesky app password: `...`

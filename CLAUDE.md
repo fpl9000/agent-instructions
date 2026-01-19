@@ -56,7 +56,9 @@
 
 ## Installed Compilers
 
-- `gcc`, `g++`, `go`, and `rustc`/`cargo` are installed and available in the Bash shell.
+- `gcc`, `g++`, `go`, `rustc`, and `cargo` are installed and available in the Bash shell.
+
+- Node.js is installed and can be executing using command `node`.
 
 - If you need a different compiler installed, confirm with the user before installing it.
 

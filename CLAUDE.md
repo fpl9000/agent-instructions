@@ -4,6 +4,8 @@
 
 - Cygwin's `/bin` directory is in the `PATH` environment variable.
 
+- When you execute Bash commands, they are executed by the Cygwin Bash shell.
+
 - Most Linux commands are available in the Cygwin Bash shell, such as `cd`, `cat`, `ls`, `grep`,
   `find`, `cp`, `mv`, `rm`, `sed`, `awk`, `tar`, `xz`, `gzip`, `zip`, `sha256sum`, `git`, `python`,
   and many others.

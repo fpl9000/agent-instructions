@@ -37,41 +37,46 @@
 - When giving pathnames to commands in the Cygwin Bash shell, prefer to use forward slashes as the
   directory separator, even though this is a Windows system.
 
-  - However, when invoking a native Windows commands (e.g., Powershell, `cmd.exe`, etc.), which
-    do not support with forward slashes in pathnames, use backslashes and quote the pathname to
+  - However, when invoking a native Windows commands (e.g., Powershell, `cmd.exe`, etc.), which do
+    not support with forward slashes in pathnames, use backslashes and single-quote the pathname to
     escape the backslashes, as follows: `powershell /c dir 'path\to\file'`.
 
 - Absolute pathnames in Bash commands should have one of two forms, depending on whether they are
   being given to Cygwin apps or native Windows apps:
 
-  1. For Cygwin apps, start absolute pathnames with a slash, followed by a Windows drive letter, as
-     follows: `/c/path/to/file`.
+  1. For Cygwin apps and commands, start absolute pathnames with a slash, followed by a Windows
+     drive letter, as follows: `/c/path/to/file`.
 
-  2. For native Windows apps, use Windows-style absolute pathnames with backslashes (and quoted), as
-     follows: `'C:\path\to\file'`.
+  2. For native Windows apps and commands, use Windows-style absolute pathnames with backslashes
+     (and single-quoted), as follows: `'C:\path\to\file'`.
 
-- In all cases, if the pathname contain whitespace or Bash metacharacters, the entire pathname
-  must be quoted, regardless of whether it is being given to a Cygwin app or a native Windows app.
+- In all cases, if a pathname contains whitespace or Bash metacharacters, the entire pathname must
+  be single-quoted, regardless of whether it is being given to a Cygwin app or a native Windows app.
+
+- If single-quotes are not an option for any reason, escape each backslash with another backslash,
+  as follows: `C:\\path\\to\\file`.  Do this as a last resort, because it hinders readability.
 
 
-## Installed Compilers
+## Installed Compilers and Tools
 
-- `gcc`, `g++`, `go`, `rustc`, and `cargo` are installed and available in the Bash shell.
+- `gcc`, `g++`, `go`, `rustc`, `cargo`, `python`, `git`, and `gh` are installed and available in the
+  Bash shell.
 
 - Node.js is installed and can be executing using command `node`.
 
-- If you need a different compiler installed, confirm with the user before installing it.
-
-
-## Executing Python Code
-
-- If you need to execute Python code, Python version 3.13.3 is available by running command
-  `python`.
-
 - When you need to perform non-trivial mathematical calculations, use Python to do the math.
+
+- If you need additional compilers or tools installed, confirm with the user before installing them.
 
 
 # Creating and Editing Files
+
+## File Encoding
+
+- New source files should use UTF-8 text encoding.
+
+- When you modify existing files, you must use the same text encoding as the rest of the file.
+
 
 ## Newline Conventions
 
@@ -87,41 +92,42 @@
 
 - Keep lines of source code less than 100 columns wide.
 
-- Avoid single-character identfiers.  In loops, use meaningful identifiers, such as `index`,
-  `counter`, and `loopCount`, instead of single-character identifiers.
+- Avoid single-character identfiers.
 
-- Prefer writing Python as a scripting language.  Avoid writing Windows batch scripts and Powershell
-  scripts.
+- In loops, use meaningful identifiers, such as `index`, `counter`, and `loopCount`, instead of
+  single-character identifiers.
+
+- Prefer Python and Bash as scripting languages.  Avoid Windows batch scripts and Powershell
+  scripts, unless absolutely necessary.
 
 
 ### Python Scripting Guidelines
 
-- In Python scripts, use PEP 723 metadata to specify dependencies.  This allows `uv` to
-  automatically install dependencies when the script is run.
+- In Python scripts, use PEP 723 metadata to specify dependencies.
+
+- This allows `uv` to automatically install dependencies when the script is run.
 
 
 ### Bash Scripting Guidelines
 
-- In Bash scripts, all variable names must be fully uppercase.  For example: `COUNT=0`,
+- In Bash scripts, all variable names must be fully uppercase, as follows: `COUNT=0`,
   `FILENAME="file.txt"`, etc.
 
 - In Bash scripts, local variables in Bash functions must start with a leading underscore to avoid
-  shadowing global variables.  For example: `local _COUNTER=0`.  Conversely, never use a leading
+  shadowing global variables, as follows: `local _COUNTER=0`.  Conversely, never use a leading
   underscore in a global variable.
 
-- In Bash scripts use the new test command (`[[ ... ]]`) instead of the traditional one
-  (`[... ]`). Use the proper argument syntax for the new test command, such as using `&&` instead of
-  `-a` to indicate Boolean AND operations, and `||` instead of `-o` to indicate Boolean OR
-  operations, as well as the other syntax differences required by the new test command.
+- Prefer the new test command (`[[ ... ]]`) instead of the traditional one (`[... ]`).
+
+  - Use the proper argument syntax for the new test command, such as using `&&` instead of `-a` to
+    indicate Boolean AND operations, and `||` instead of `-o` to indicate Boolean OR operations.
 
 
 ### Comments in Source Code
 
 - Always write well-commented source code.
 
-- Comments should be complete sentences that start with a capital letter and end with a period.
-
-- Sentences in comments should be separated by two spaces for readability.
+- Comments should be complete sentences.
 
 - Put comments on the line above the code they reference, rather than on the same line.
 
@@ -217,11 +223,6 @@ guidelines:
 
 ## My BlueSky Credentials
 
-- The `bluesky.skill` skill gives you the ability to read from and post to the BlueSky social
-  network using my account.
+- My BlueSky handle is: `fpl9000.bsky.social`
 
-- My BlueSky credentials are as follows:
-
-  - My BlueSky handle: `fpl9000.bsky.social`
-
-  - My Bluesky app password: `...`
+- The Bluesky app password you should use is: `...`

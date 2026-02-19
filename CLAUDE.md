@@ -40,20 +40,20 @@
   given to a Cygwin app/command or a native Windows app/command:
 
   1. When invoking Cygwin apps and commands, relative pathnames should use forward slashes, as
-     follows: `... path/to/file`.
+     follows: `COMMAND path/to/file`.
 
   2. When invoking native Windows apps and commands, relative pathnames should use backslashes
-     and be single-quoted to escape the backslashes, as follows: `... 'path\to\file'`.
+     and be single-quoted to escape the backslashes, as follows: `COMMAND 'path\to\file'`.
 
 - Absolute pathnames in Bash commands should have one of two forms, depending on whether they are
   being given to Cygwin apps or native Windows apps:
 
   1. When invoking Cygwin apps and commands, absolute pathnames should start with a slash, followed
-     by a Windows drive letter, as follows: `... /c/path/to/file`.
+     by a Windows drive letter, as follows: `COMMAND /c/path/to/file`.
 
   2. When invoking native Windows apps and commands, absolute pathnames should contain backslashes,
      should be single-quoted to escape the backslashes, and should have a leading drive letter, as
-     follows: `... 'C:\path\to\file'`.
+     follows: `COMMAND 'C:\path\to\file'`.
 
 - In all cases, if a pathname contains whitespace or Bash metacharacters, the entire pathname must
   be single-quoted, regardless of whether it is being given to a Cygwin app or a native Windows app.
@@ -64,10 +64,10 @@
 
 ## Installed Compilers and Tools
 
-- `gcc`, `g++`, `go`, `rustc`, `cargo`, `python`, `git`, and `gh` are installed and available in the
-  Bash shell.
+- The following compilers and tools are installed and available in the Bash shell: `gcc`, `g++`,
+  `go`, `rustc`, `cargo`, `python`, `git`, and `gh`.
 
-- Node.js is installed and can be executing using command `node`.
+- Node.js is installed and can be executed using command `node`.
 
 - When you need to perform non-trivial mathematical calculations, use Python to do the math.
 
@@ -220,14 +220,15 @@ guidelines:
 
 # Accessing the BlueSky Social Network
 
-- You can read, reply, search, and post to my Bluesky account using the `bluesky.skill` skill.
+- You can read, reply, search, and post to my Bluesky account using the `bluesky` skill.
+
+- Before you use the scripts in the `bluesky` skill, you must export the following environment
+  variables:
+
+```
+export BLUESKY_HANDLE="fpl9000.bsky.social"
+export BLUESKY_PASSWORD="..."   # Ask the user for this password.
+```
 
 - At the start of every post you make to BlueSky, always insert the following text and follow it
   with a blank line and the rest of the post content: `Posted by Claude using Fran's account. 🤖`
-
-
-## My BlueSky Credentials
-
-- My BlueSky handle is: `fpl9000.bsky.social`
-
-- The Bluesky app password you should use is: `...`

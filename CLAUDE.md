@@ -14,10 +14,8 @@
   This avoids a confirmation prompt displayed by my personal `rm` wrapper script.
 
 - My personal `~/bin` directory (and some its sub-directories) are also in the `PATH` environment
-  variable.
-
-- My `~/bin` directory contains scripts and tools that I regularly use, but you are free to use or
-  copy them.
+  variable.  They contain scripts and tools that I regularly use, but you are free to use or copy
+  them.
 
 - Cygwin symlinks corresponding to each Windows drive letter have been created, as follows:
 
@@ -29,7 +27,8 @@
     /z -> /cygdrive/z
     ```
 
-  - Keep in mind that native Windows apps and commands cannot follow Cygwin symlinks.
+  - Keep in mind that native Windows apps and commands cannot follow Cygwin symlinks, even when
+    invoked from a Cygwin Bash shell.
 
   - The target of a Cygwin symlink can found using `readlink -m SYMLINK`.
 
@@ -65,9 +64,10 @@
 ## Installed Compilers and Tools
 
 - The following compilers and tools are installed and available in the Bash shell: `gcc`, `g++`,
-  `go`, `rustc`, `cargo`, `python`, `git`, and `gh`.
+  `go`, `rustc`, `cargo`, `python`, `uv`, `uvx`, `git`, and `gh`.
 
-- Node.js is installed and can be executed using command `node`.
+- Node.js is installed and can be executed using command `node`.  Commands `npm` and `npx` are also
+  available in `PATH`.
 
 - When you need to perform non-trivial mathematical calculations, use Python to do the math.
 
@@ -157,9 +157,9 @@ A skill is a collection of files (commonly packaged in ZIP format) with the exte
 can be read by an AI at inference-time to learn new skills.  When you write a skill, follow these
 guidelines:
 
-- Remember that the skill syntax specification is available at https://agentskills.io.
+- The skill syntax specification is available at `https://agentskills.io`.
 
-- Do not add any directories to a skill other than the standard ones defined by the Agent Skills
+a- Do not add any directories to a skill other than the standard ones defined by the Agent Skills
   specification, which are `scripts`, `references`, and `assets`.
 
 - Always write a skill's markdown files in UTF-8 encoding without a BOM (byte order
@@ -183,26 +183,6 @@ guidelines:
   that the application does not create a console window when it is launched.
 
 
-# Testing Graphical Applications
-
-- You have no way to see the GUI of a graphical application, which makes it difficult for you to
-  test graphical applications.
-
-- Thus, you must test graphical applications as follows:
-
-  1. Tell the user to test the graphical application's GUI before you launch it.
-
-  2. Launch the graphical application, and wait for it to terminate.  If it produces any error
-     messages on standard error or standard output, you will see them just as you see the output of
-     a non-graphical application.
-
-  3. After the app terminates, ask the user for their testing feedback, then wait for the user to
-     enter their feedback.
-
-  4. Take the appropriate actions based on the user's feedback and any output produced by the
-     application.
-
-
 # Accessing GitHub
 
 - You have read access and write access to my GitHub repositories.
@@ -211,8 +191,8 @@ guidelines:
 
   - My GitHub profile is located at `https://github.com/fpl9000`.
 
-  - The `git` command can be used to access my GitHub repositories via SSH.  No credentials are
-    needed because my SSH keys are already set up.
+  - The `git` command can be used to access my GitHub repositories.  No credentials are needed
+    because SSH access to GitHub is already configured.
 
 - The GitHub CLI app `gh` is also available for accessing GitHub from the command line, though you
   may have an MCP connector or skill that works better for you.

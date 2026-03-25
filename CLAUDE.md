@@ -9,8 +9,11 @@
 - Most Linux commands are available in the Cygwin Bash shell.
 
 - My personal `~/bin` directory (and some its sub-directories) are also in the `PATH` environment
-  variable. They contain scripts and tools that I regularly use, but you are free to use or copy
-  them. Most of them support switch `--help` to display usage.
+  variable.
+
+  - They contain scripts and tools that I regularly use, but you are free to use or copy them.
+  - Most of them support switch `--help` to display usage, but please read any that you plan to use
+    before using them.
 
 - Cygwin symlinks corresponding to each Windows drive letter have been created, as follows:
 
@@ -24,7 +27,6 @@
 
   - Keep in mind that native Windows apps and commands cannot follow Cygwin symlinks, even when
     invoked from a Cygwin Bash shell.
-
   - The target of a Cygwin symlink can found using `readlink -m SYMLINK`.
 
 ## Home Directories
@@ -68,10 +70,9 @@
 ## Installed Compilers and Tools
 
 - The following compilers and tools are installed and available in the Bash shell: `gcc`, `g++`,
-  `go`, `rustc`, `cargo`, `python`, `uv`, `uvx`, `git`, and `gh`.
+  `go`, `rustc`, `cargo`, `python`, `uv`, `uvx`, `npm`, `npx`, `git`, and `gh`.
 
-- Node.js is installed and can be executed using command `node`. Commands `npm` and `npx` are also
-  available in `PATH`.
+- Node.js is installed and can be executed using command `node`.
 
 - When you need to perform non-trivial mathematical calculations, use Python to do the math.
 
@@ -81,7 +82,7 @@
 
 ## File Encoding
 
-- New source files should use UTF-8 text encoding.
+- When you create new files containing source code or text, always use UTF-8 text encoding.
 
 - When you modify existing files, use the same text encoding as the rest of the file.
 

@@ -11,7 +11,7 @@
 - My personal `~/bin` directory (and some its sub-directories) are also in the `PATH` environment
   variable.
 
-  - They contain scripts and tools that I regularly use, but you are free to use or copy them.
+  - These directories contain scripts and tools that I regularly use, but you are free to use or copy them.
   - Most of them support switch `--help` to display usage, but please read any that you plan to use
     before using them.
 

@@ -42,8 +42,7 @@
 
 ## Pathnames in Bash Commands
 
-- Relative pathnames in Bash commands should have one of two forms, depending on whether they are being
-  given to a Cygwin app or a native Windows app:
+- For relative pathnames in Bash commands:
 
   1. When invoking Cygwin apps, relative pathnames should use forward slashes. Example: `COMMAND
      path/to/file`.
@@ -51,8 +50,7 @@
   2. When invoking native Windows apps, relative pathnames should use backslashes and be
      single-quoted to escape the backslashes. Example: `COMMAND 'path\to\file'`.
 
-- Absolute pathnames in Bash commands should have one of two forms, depending on whether they are
-  being given to Cygwin apps or native Windows apps:
+- For absolute pathnames in Bash commands:
 
   1. When invoking Cygwin apps, absolute pathnames should start with a slash, followed by a Windows
      drive letter. Example: `COMMAND /c/path/to/file`.
@@ -65,7 +63,7 @@
   be single-quoted, regardless of whether it is being given to a Cygwin app or a native Windows app.
 
 - If single-quotes are not an option for any reason, escape each backslash with another backslash,
-  as follows: `C:\\path\\to\\file`. Do this as a last resort, because it hinders readability.
+  as follows: `C:\\path\\to\\file`.
 
 ## Installed Compilers and Tools
 

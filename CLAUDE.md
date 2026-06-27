@@ -2,9 +2,11 @@
 
 - This computer is a Windows 11 system with Cygwin installed.
 
-- Cygwin's `/bin` directory is in the `PATH` environment variable.
+- Cygwin's `/bin` directory is in the `PATH` environment variable ahead of all other Linux emulation
+  layers, such as WSL, Git Bash, MinGW, etc.
 
-- When you execute Bash commands, they are executed by the Cygwin Bash shell.
+- When you execute Bash commands, they are executed by the Cygwin Bash shell at
+  `C:\apps\cygwin\bin\bash.exe`, which is accessed at `/bin/bash` inside any Cygwin app.
 
 - Most Linux commands are available in the Cygwin Bash shell.
 
@@ -15,15 +17,15 @@
   - Most of them support switch `--help` to display usage, but please read any that you plan to use
     before using them.
 
-- Cygwin symlinks corresponding to each Windows drive letter have been created, as follows:
+- Cygwin symlinks corresponding to each Windows drive letter have been created as follows:
 
-    ```
-    /a -> /cygdrive/a
-    /b -> /cygdrive/b
-    /c -> /cygdrive/c
-    ...
-    /z -> /cygdrive/z
-    ```
+  ```
+  /a -> /cygdrive/a
+  /b -> /cygdrive/b
+  /c -> /cygdrive/c
+  ...
+  /z -> /cygdrive/z
+  ```
 
   - Keep in mind that native Windows apps and commands cannot follow Cygwin symlinks, even when
     invoked from a Cygwin Bash shell.
@@ -33,12 +35,14 @@
 
 - My Cygwin home directory is `C:\franl\`. My Windows home directory is `C:\Users\flitt\`.
 
-- In a Cygwin Bash shell and all Cygwin apps spawned from it, the value of environment variable
-  `HOME` is `/cygdrive/c/franl`.
+- In a Cygwin Bash shell and all Cygwin apps, the value of environment variable `HOME` is
+  `/cygdrive/c/franl`.
 
-- In all other processes, including native Windows apps, the value of `HOME` is `C:\franl`, even
-  though that is not my windows home directory. This causes most Windows apps to use my Cygwin home
-  directory, though some still use `C:\Users\flitt\`.
+- In all Windows apps, the value of `HOME` is `C:\franl`, even though that is not my windows home
+  directory. This causes most Windows apps to use my Cygwin home directory, though some still use
+  `C:\Users\flitt\`.
+
+- The above is also true when a Cygwin or Windows app spawns an app of the other kind.
 
 ## Pathnames in Bash Commands
 
@@ -147,6 +151,17 @@
 - Do not comment trivial code, such as Python and Go `import` statements or the initialization of
   local variables, unless the comment explains something important for a developer to understand.
 
+# Accessing GitHub
+
+- You have read access and write access to my GitHub repositories, as follows:
+
+  - Use command `git` to access my GitHub repositories. No credentials are needed because SSH access
+    to GitHub is already configured.
+
+  - My GitHub user name is `fpl9000`.
+
+  - My GitHub profile is located at `https://github.com/fpl9000`.
+
 ## Writing Skills
 
 A skill is a collection of files (commonly packaged in ZIP format) with the extension `.skill` that
@@ -177,16 +192,25 @@ guidelines:
 - When using GCC to build a graphical application, always pass switch `-Wl,--subsystem,windows` so
   that the application does not create a console window when it is launched.
 
-# Accessing GitHub
+# Claude Code Configuration
 
-- You have read access and write access to my GitHub repositories.
+- In `settings.json`, any command the harness runs through a shell (such as `statusLine.command`
+  or hook commands) is executed via Cygwin Bash, which strips unquoted backslashes. Quote paths as
+  follows:
 
-  - My GitHub user name is `fpl9000`.
+  - For the executable, use a Cygwin forward-slash absolute path with no backslashes (for example,
+    `/c/Windows/py.exe`). Do not use `C:\Windows\py.exe`, because Bash mangles the unquoted
+    backslashes into `C:Windowspy.exe` ("command not found"), and single-quoting a backslash path
+    (`'C:\Windows\py.exe'`) fails because Cygwin Bash cannot exec it.
 
-  - My GitHub profile is located at `https://github.com/fpl9000`.
+  - For arguments passed to a native Windows program, use a single-quoted Windows path so the
+    backslashes survive (for example, `'C:\franl\bin\claude-statusline'`).
 
-  - The `git` command can be used to access my GitHub repositories. No credentials are needed
-    because SSH access to GitHub is already configured.
+  - Prefer an absolute forward-slash path over relying on `PATH` for the executable, because a
+    `.bash_profile` edit that drops `C:\Windows` from `PATH` will silently disable the command.
 
-- The GitHub CLI app `gh` is also available for accessing GitHub from the command line, though you
-  may have an MCP connector or skill that works better for you.
+  - Working example (status line):
+    `"command": "/c/Windows/py.exe 'C:\\franl\\bin\\claude-statusline'"`
+
+- The harness hot-reloads `settings.json`: editing the file takes effect immediately in all running
+  Claude Code CLI sessions, with no restart needed.

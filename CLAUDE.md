@@ -95,7 +95,18 @@
 - When you modify existing files, you must use the same newline convention as the rest of the file.
 
 - Never convert an existing file from one newline convention to the other. If you have a compelling
-  reason to do this, confirm with the user first, even if confirmation-for-edits is enabled.
+  reason to do this, confirm with the user first.
+
+## Writing Markdown
+
+- It's OK to have indefinitely long lines (despite the below rule to limit the length of source code
+  lines), because Markdown renderers handle that gracefully.
+
+- Avoid hard line breaks with `<br/>`, because not all renderers handle that.
+
+- Instead of `<br/>`, use two trailing spaces at the end of a line to indicate a line break.
+
+- When creating a new Markdown document, list yourself as the author.
 
 ## Writing Source Code
 

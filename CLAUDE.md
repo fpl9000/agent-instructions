@@ -2,20 +2,18 @@
 
 - This computer is a Windows 11 system with Cygwin installed.
 
-- Cygwin's `/bin` directory is in the `PATH` environment variable ahead of all other Linux emulation
-  layers, such as WSL, Git Bash, MinGW, etc.
+- Cygwin's `/bin` directory is in the `PATH` environment variable ahead of all other Linux emulation layers, such as WSL, Git Bash, MinGW, etc.
 
-- When you execute Bash commands, they are executed by the Cygwin Bash shell at
-  `C:\apps\cygwin\bin\bash.exe`, which is accessed at `/bin/bash` inside any Cygwin app.
+- When you execute Bash commands, they are executed by the Cygwin Bash shell at `C:\apps\cygwin\bin\bash.exe`, which is accessed at `/bin/bash` inside any Cygwin app.
 
 - Most Linux commands are available in the Cygwin Bash shell.
 
-- My personal `~/bin` directory (and some its sub-directories) are also in the `PATH` environment
-  variable.
+- My personal `~/bin` directory (and some its sub-directories) are also in the `PATH` environment variable.
 
   - These directories contain scripts and tools that I regularly use, but you are free to use or copy them.
-  - Most of them support switch `--help` to display usage, but please read any that you plan to use
-    before using them.
+  - Most of them support switch `--help` to display usage, but please read any that you plan to use before using them.
+
+- The Cygwin man pages are installed. Use `man COMMAND >/tmp/man.txt` to save a man page in plain text that you can read.
 
 - Cygwin symlinks corresponding to each Windows drive letter have been created as follows:
 
@@ -29,18 +27,16 @@
 
   - Keep in mind that native Windows apps and commands cannot follow Cygwin symlinks, even when
     invoked from a Cygwin Bash shell.
+
   - The target of a Cygwin symlink can found using `readlink -m SYMLINK`.
 
 ## Home Directories
 
 - My Cygwin home directory is `C:\franl\`. My Windows home directory is `C:\Users\flitt\`.
 
-- In a Cygwin Bash shell and all Cygwin apps, the value of environment variable `HOME` is
-  `/cygdrive/c/franl`.
+- In a Cygwin Bash shell and all Cygwin apps, the value of environment variable `HOME` is `/cygdrive/c/franl`.
 
-- In all Windows apps, the value of `HOME` is `C:\franl`, even though that is not my windows home
-  directory. This causes most Windows apps to use my Cygwin home directory, though some still use
-  `C:\Users\flitt\`.
+- In all Windows apps, the value of `HOME` is `C:\franl`, even though that is not my windows home directory. This causes most Windows apps to use my Cygwin home directory, though some still use `C:\Users\flitt\`.
 
 - The above is also true when a Cygwin or Windows app spawns an app of the other kind.
 
@@ -48,37 +44,45 @@
 
 - For relative pathnames in Bash commands:
 
-  1. When invoking Cygwin apps, relative pathnames should use forward slashes. Example: `COMMAND
-     path/to/file`.
+  1. When invoking Cygwin apps, relative pathnames should use forward slashes. Example: `COMMAND path/to/file`.
 
-  2. When invoking native Windows apps, relative pathnames should use backslashes and be
-     single-quoted to escape the backslashes. Example: `COMMAND 'path\to\file'`.
+  2. When invoking native Windows apps, relative pathnames should use backslashes and be single-quoted to escape the backslashes. Example: `COMMAND 'path\to\file'`.
 
 - For absolute pathnames in Bash commands:
 
-  1. When invoking Cygwin apps, absolute pathnames should start with a slash, followed by a Windows
-     drive letter. Example: `COMMAND /c/path/to/file`.
+  1. When invoking Cygwin apps, absolute pathnames should start with a slash, followed by a Windows drive letter. Example: `COMMAND /c/path/to/file`.
 
-  2. When invoking native Windows apps, absolute pathnames should contain backslashes, should be
-     single-quoted to escape the backslashes, and should have a leading drive letter. Example:
-     `COMMAND 'C:\path\to\file'`.
+  2. When invoking native Windows apps, absolute pathnames should contain backslashes, should be single-quoted to escape the backslashes, and should have a leading drive letter. Example: `COMMAND 'C:\path\to\file'`.
 
-- In all cases, if a pathname contains whitespace or Bash metacharacters, the entire pathname must
-  be single-quoted, regardless of whether it is being given to a Cygwin app or a native Windows app.
+- In all cases, if a pathname contains whitespace or Bash metacharacters, the entire pathname must be single-quoted, regardless of whether it is being given to a Cygwin app or a native Windows app.
 
-- If single-quotes are not an option for any reason, escape each backslash with another backslash,
-  as follows: `C:\\path\\to\\file`.
+- If single-quotes are not an option for any reason, escape each backslash with another backslash, as follows: `C:\\path\\to\\file`.
 
 ## Installed Compilers and Tools
 
-- The following compilers and tools are installed and available in the Bash shell: `gcc`, `g++`,
-  `go`, `rustc`, `cargo`, `python`, `uv`, `uvx`, `npm`, `npx`, `git`, and `gh`.
+- The following compilers and tools are installed and available in the Bash shell: `gcc`, `g++`, `go`, `rustc`, `cargo`, `python`, `uv`, `uvx`, `npm`, `npx`, `git`, and `gh`.
 
 - Node.js is installed and can be executed using command `node`.
 
 - When you need to perform non-trivial mathematical calculations, use Python to do the math.
 
 - If you need additional compilers or tools installed, confirm with the user before installing them.
+
+## Choosing a Python Interpreter
+
+- Three Python interpreters are available, and they behave differently in ways that cause subtle bugs, so choose deliberately:
+
+  - Cygwin's `python` (`/usr/bin/python`) is a POSIX build: `os.path` uses posixpath (forward-slash) semantics, `os.getcwd()` returns a `/cygdrive/...` path, and it can follow the Cygwin drive symlinks (`/c` ... `/z`).
+
+  - The native Windows Python (`/c/Windows/py.exe`, which runs `C:\Program Files\Python313\python.exe` uses backslash-aware `ntpath` semantics, `os.getcwd()` returns a `C:\...` path, and it cannot follow Cygwin symlinks.
+
+- Default to Cygwin's `python` for scripts you run yourself from the Bash shell, because it matches the shell's filesystem view (pipes, redirects, and the `/c` ... `/z` symlinks).
+
+- For a script that something else launches, use and test with that same interpreter. Scripts run by the Claude Code harness (the `statusLine` command and `settings.json` hooks) are launched by the native Windows Python, so write and verify those with `py.exe`, not Cygwin `python`. Testing under the wrong interpreter can pass while production fails.
+
+- When a script may run under either interpreter, parse pathnames separator-agnostically (for example, split on both `/` and `\`) rather than relying on `os.path`.
+
+- For standalone script deliverables, keep using PEP 723 metadata with `uv`/`uvx` (see the Python Scripting Guidelines below); `uv` provisions its own interpreter.
 
 # Creating and Editing Files
 
@@ -94,13 +98,11 @@
 
 - When you modify existing files, you must use the same newline convention as the rest of the file.
 
-- Never convert an existing file from one newline convention to the other. If you have a compelling
-  reason to do this, confirm with the user first.
+- Never convert an existing file from one newline convention to the other. If you have a compelling reason to do this, confirm with the user first.
 
 ## Writing Markdown
 
-- It's OK to have indefinitely long lines (despite the below rule to limit the length of source code
-  lines), because Markdown renderers handle that gracefully.
+- It's OK to have indefinitely long lines (despite the below rule to limit the length of source code lines), because Markdown renderers handle that gracefully.
 
 - Avoid hard line breaks with `<br/>`, because not all renderers handle that.
 
@@ -114,11 +116,9 @@
 
 - Avoid single-character identfiers.
 
-- In loops, use meaningful identifiers, such as `index`, `counter`, and `loopCount`, instead of
-  single-character identifiers.
+- In loops, use meaningful identifiers, such as `index`, `counter`, and `loopCount`, instead of single-character identifiers.
 
-- Prefer Python and Bash as scripting languages. Avoid Windows batch scripts and Powershell
-  scripts, unless absolutely necessary.
+- Prefer Python and Bash as scripting languages. Avoid Windows batch scripts and Powershell scripts, unless absolutely necessary.
 
 ### Python Scripting Guidelines
 
@@ -128,17 +128,13 @@
 
 ### Bash Scripting Guidelines
 
-- In Bash scripts, all variable names must be fully uppercase, as follows: `COUNT=0`,
-  `FILENAME="file.txt"`, etc.
+- In Bash scripts, all variable names must be fully uppercase, as follows: `COUNT=0`, `FILENAME="file.txt"`, etc.
 
-- In Bash scripts, local variables in Bash functions must start with a leading underscore to avoid
-  shadowing global variables, as follows: `local _COUNTER=0`. Conversely, never use a leading
-  underscore in a global variable.
+- In Bash scripts, local variables in Bash functions must start with a leading underscore to avoid shadowing global variables, as follows: `local _COUNTER=0`. Conversely, never use a leading underscore in a global variable.
 
 - Prefer the new test command (`[[ ... ]]`) instead of the traditional one (`[ ... ]`).
 
-  - Use the proper argument syntax for the new test command, such as using `&&` instead of `-a` to
-    indicate Boolean AND operations, and `||` instead of `-o` to indicate Boolean OR operations.
+  - Use the proper argument syntax for the new test command, such as using `&&` instead of `-a` to indicate Boolean AND operations, and `||` instead of `-o` to indicate Boolean OR operations.
 
 ### Comments in Source Code
 
@@ -148,26 +144,21 @@
 
 - Put comments on the line above the code they reference, rather than on the same line.
 
-- Comments can appear on the same line as code only if the comment is very short. In this case, the
-  comment is exempt from the rule that it must be a complete sentence.
+- Comments can appear on the same line as code only if the comment is very short. In this case, the comment is exempt from the rule that it must be a complete sentence.
 
-- Comments should explain the purpose and rationale of the code and not simply restate what the code
-  does.
+- Comments should explain the purpose and rationale of the code and not simply restate what the code does.
 
 - Do not talk to the user through comments in code.
 
-- Aim to have nearly the same number of lines of comments as lines of code. This is a guideline not
-  a hard and fast rule.
+- Aim to have nearly the same number of lines of comments as lines of code. This is a guideline not a hard and fast rule.
 
-- Do not comment trivial code, such as Python and Go `import` statements or the initialization of
-  local variables, unless the comment explains something important for a developer to understand.
+- Do not comment trivial code, such as Python and Go `import` statements or the initialization of local variables, unless the comment explains something important for a developer to understand.
 
 # Accessing GitHub
 
 - You have read access and write access to my GitHub repositories, as follows:
 
-  - Use command `git` to access my GitHub repositories. No credentials are needed because SSH access
-    to GitHub is already configured.
+  - Use command `git` to access my GitHub repositories. No credentials are needed because SSH access to GitHub is already configured.
 
   - My GitHub user name is `fpl9000`.
 
@@ -175,18 +166,13 @@
 
 ## Writing Skills
 
-A skill is a collection of files (commonly packaged in ZIP format) with the extension `.skill` that
-can be read by an AI at inference-time to learn new skills. When you write a skill, follow these
-guidelines:
+A skill is a collection of files (commonly packaged in ZIP format) with the extension `.skill` that can be read by an AI at inference-time to learn new skills. When you write a skill, follow these guidelines:
 
 - The skill syntax specification is available at `https://agentskills.io`.
 
-- Do not add any directories to a skill other than the standard ones defined by the Agent Skills
-  specification, which are `scripts`, `references`, and `assets`.
+- Do not add any directories to a skill other than the standard ones defined by the Agent Skills specification, which are `scripts`, `references`, and `assets`.
 
-- Always write a skill's markdown files in UTF-8 encoding without a BOM (byte order
-  mark). Non-markdown files in a skill might need to deviate from this rule, such as scripts that do
-  not work when written a non-ANSI encoding.
+- Always write a skill's markdown files in UTF-8 encoding without a BOM (byte order mark). Non-markdown files in a skill might need to deviate from this rule, such as scripts that do not work when written a non-ANSI encoding.
 
 - Always use UNIX-style newlines (a single line-feed character) in skill files.
 
@@ -194,34 +180,22 @@ guidelines:
 
 # Building Applications
 
-- When running commands to build executables, always make the executable name end with `.exe`,
-  because this is a Windows system.
+- When running commands to build executables, always make the executable name end with `.exe`, because this is a Windows system.
 
-- When building a graphical Go application, always pass switch `-ldflags "-H windowsgui"` so that
-  the application does not create a console window when it is launched.
+- When building a graphical Go application, always pass switch `-ldflags "-H windowsgui"` so that the application does not create a console window when it is launched.
 
-- When using GCC to build a graphical application, always pass switch `-Wl,--subsystem,windows` so
-  that the application does not create a console window when it is launched.
+- When using GCC to build a graphical application, always pass switch `-Wl,--subsystem,windows` so that the application does not create a console window when it is launched.
 
 # Claude Code Configuration
 
-- In `settings.json`, any command the harness runs through a shell (such as `statusLine.command`
-  or hook commands) is executed via Cygwin Bash, which strips unquoted backslashes. Quote paths as
-  follows:
+- In `settings.json`, any command the harness runs through a shell (such as `statusLine.command` or hook commands) is executed via Cygwin Bash, which strips unquoted backslashes. Quote paths as follows:
 
-  - For the executable, use a Cygwin forward-slash absolute path with no backslashes (for example,
-    `/c/Windows/py.exe`). Do not use `C:\Windows\py.exe`, because Bash mangles the unquoted
-    backslashes into `C:Windowspy.exe` ("command not found"), and single-quoting a backslash path
-    (`'C:\Windows\py.exe'`) fails because Cygwin Bash cannot exec it.
+  - For the executable, use a Cygwin forward-slash absolute path with no backslashes (for example, `/c/Windows/py.exe`). Do not use `C:\Windows\py.exe`, because Bash mangles the unquoted backslashes into `C:Windowspy.exe` ("command not found"), and single-quoting a backslash path (`'C:\Windows\py.exe'`) fails because Cygwin Bash cannot exec it.
 
-  - For arguments passed to a native Windows program, use a single-quoted Windows path so the
-    backslashes survive (for example, `'C:\franl\bin\claude-statusline'`).
+  - For arguments passed to a native Windows program, use a single-quoted Windows path so the backslashes survive (for example, `'C:\franl\bin\claude-statusline'`).
 
-  - Prefer an absolute forward-slash path over relying on `PATH` for the executable, because a
-    `.bash_profile` edit that drops `C:\Windows` from `PATH` will silently disable the command.
+  - Prefer an absolute forward-slash path over relying on `PATH` for the executable, because a `.bash_profile` edit that drops `C:\Windows` from `PATH` will silently disable the command.
 
-  - Working example (status line):
-    `"command": "/c/Windows/py.exe 'C:\\franl\\bin\\claude-statusline'"`
+  - Working example (status line): `"command": "/c/Windows/py.exe 'C:\\franl\\bin\\claude-statusline'"`
 
-- The harness hot-reloads `settings.json`: editing the file takes effect immediately in all running
-  Claude Code CLI sessions, with no restart needed.
+- The harness hot-reloads `settings.json`: editing the file takes effect immediately in all running Claude Code CLI sessions, with no restart needed.

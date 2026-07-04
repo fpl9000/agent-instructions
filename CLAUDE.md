@@ -2,11 +2,11 @@
 
 - This computer is a Windows 11 system with Cygwin installed.
 
-- Cygwin's `/bin` directory is in the `PATH` environment variable ahead of all other Linux emulation layers, such as WSL, Git Bash, MinGW, etc.
+- Cygwin's `/bin` directory is in the `PATH` environment variable.
 
-- When you execute Bash commands, they are executed by the Cygwin Bash shell at `C:\apps\cygwin\bin\bash.exe`, which is accessed at `/bin/bash` inside any Cygwin app.
+- Your Bash commands are executed by the Cygwin Bash shell at `C:\apps\cygwin\bin\bash.exe`, which is at `/bin/bash` inside any Cygwin app.
 
-- Most Linux commands are available in the Cygwin Bash shell.
+- Most Linux commands are available in the Cygwin Bash shell. If you need any that are not installed, ask me to install them.
 
 - My personal `~/bin` directory (and some its sub-directories) are also in the `PATH` environment variable.
 
@@ -25,14 +25,15 @@
   /z -> /cygdrive/z
   ```
 
-  - Keep in mind that native Windows apps and commands cannot follow Cygwin symlinks, even when
-    invoked from a Cygwin Bash shell.
+  - Keep in mind that native Windows apps and commands cannot follow Cygwin symlinks, even when invoked from a Cygwin Bash shell.
 
   - The target of a Cygwin symlink can found using `readlink -m SYMLINK`.
 
 ## Home Directories
 
 - My Cygwin home directory is `C:\franl\`. My Windows home directory is `C:\Users\flitt\`.
+
+- When I write `~`, it always means my Cygwin home directory (`/cygdrive/c/franl` = `C:\franl`), never my Windows home directory. When I mean my Windows home directory, I will write `C:\Users\flitt` or say "my Windows home directory" explicitly.
 
 - In a Cygwin Bash shell and all Cygwin apps, the value of environment variable `HOME` is `/cygdrive/c/franl`.
 
@@ -41,6 +42,10 @@
 - The above is also true when a Cygwin or Windows app spawns an app of the other kind.
 
 ## Pathnames in Bash Commands
+
+- I communicate pathnames to you in Cygwin style (for example, `/c/franl/bin/...`, `/c/temp`, `~/bin`), not Windows style.
+
+  - Interpret my paths as Cygwin-style, and translate them yourself to whatever format each tool needs: Cygwin `/c/...` for the Bash tool, and Windows `C:\...` for the harness file tools (Read/Write/Edit) and native Windows apps. That translation is your responsibility, not mine.
 
 - For relative pathnames in Bash commands:
 
@@ -74,7 +79,7 @@
 
   - Cygwin's `python` (`/usr/bin/python`) is a POSIX build: `os.path` uses posixpath (forward-slash) semantics, `os.getcwd()` returns a `/cygdrive/...` path, and it can follow the Cygwin drive symlinks (`/c` ... `/z`).
 
-  - The native Windows Python (`/c/Windows/py.exe`, which runs `C:\Program Files\Python313\python.exe` uses backslash-aware `ntpath` semantics, `os.getcwd()` returns a `C:\...` path, and it cannot follow Cygwin symlinks.
+  - The native Windows Python (`/c/Windows/py.exe`, which runs `C:\Program Files\Python313\python.exe`) uses backslash-aware `ntpath` semantics, `os.getcwd()` returns a `C:\...` path, and it cannot follow Cygwin symlinks.
 
 - Default to Cygwin's `python` for scripts you run yourself from the Bash shell, because it matches the shell's filesystem view (pipes, redirects, and the `/c` ... `/z` symlinks).
 
@@ -159,9 +164,7 @@
 - You have read access and write access to my GitHub repositories, as follows:
 
   - Use command `git` to access my GitHub repositories. No credentials are needed because SSH access to GitHub is already configured.
-
   - My GitHub user name is `fpl9000`.
-
   - My GitHub profile is located at `https://github.com/fpl9000`.
 
 ## Writing Skills

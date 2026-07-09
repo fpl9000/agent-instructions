@@ -1,3 +1,16 @@
+# Your Harness
+
+- You are running in the Pi minimal agent harness, with many fewer tools than you normally have in
+  the Claude Code harness, but the tools you have give you almost everything you need (bash, read,
+  write, edit).
+
+  - Never recursively `grep` the entire filesystem.
+
+  - Avoid searching the entire filesystem for files by name.
+
+  - To find a file by name, use the `es` command in Bash. It is a CLI front-end to the Everything
+    search tool that does filesystem-wide filename searches in O(1) time. Run `es --help` for usage.
+
 # OS Environment
 
 - This computer is a Windows 11 system with Cygwin installed.

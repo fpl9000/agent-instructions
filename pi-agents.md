@@ -9,7 +9,23 @@
   - Avoid searching the entire filesystem for files by name.
 
   - To find a file by name, use the `es` command in Bash. It is a CLI front-end to the Everything
-    search tool that does filesystem-wide filename searches in O(1) time. Run `es --help` for usage.
+    search tool that does filesystem-wide filename searches in O(1) time.
+
+  - Run `es --help` for full usage. Abreviated usage:
+
+    ```
+    usage: es [ -d | -s | -f ] [ -u | -w ] [ STRING | -r REGEX ]
+
+    Search is always case-insensitive. Matches across '/' chars in the pathname. Default sorts by
+    absolute pathname. Quote STRING and REGEX to escape shell metacharacters.
+
+    -r  =>  Match filenames using the given REGEX instead of a fixed STRING.
+    -d  =>  Sort results by DTM (newest first).
+    -s  =>  Sort results by size (largest first)
+    -f  =>  Show only the result pathnames without the DTM or size.
+    -u  =>  Display pathname with UNIX-style forward slashes (default).
+    -w  =>  Display pathname with Windows-style backslashes.
+    ```
 
 # OS Environment
 

@@ -186,6 +186,36 @@
 - Prefer Python and Bash as scripting languages. Avoid Windows batch scripts and Powershell scripts,
   unless absolutely necessary.
 
+## Editing Source Code
+
+- Many of my source files mix tabs and spaces in indentation. Mid-line tabs and spaces are also used
+  to align columns in array and `Map` literals and before trailing comments.
+
+- The string-replacement Edit tool requires its `old_string` to match the file byte-for-byte,
+  including every tab and space. Although tabs and spaces are distinct characters that are present
+  in Read output, you cannot reproduce a mixed-whitespace region with byte-exact reliability by
+  retyping it, so the match silently fails.
+
+- When an Edit fails on such a file, do not keep retrying with guessed whitespace. Instead, use one
+  of these reliable approaches:
+
+  1. Anchor the `old_string` on a short, unique single line that has little or no leading
+     whitespace.
+
+  2. Run `cat -A` (or `sed -n 'START,ENDp' FILE | cat -A`) on the target region first to see the
+     real tabs (`^I`) and spaces, then reproduce them exactly.
+
+  3. For tricky multi-line regions, perform the replacement with a scripted literal `str.replace`
+     (for example, a small Python script that reads the file, asserts the old text matches exactly
+     once, replaces it, and writes it back).
+
+- Do not mass-convert files from tabs to spaces (or vice versa) to make editing easier.
+
+- After editing an AutoHotkey v2 script, syntax-check it without running it via `AutoHotkey64.exe
+  /validate 'C:\path\to\script.ahk'` (exit code 0 and no output means success). Validate the
+  top-level script that `#Include`s the edited file, not the included fragment alone, so that
+  globals and other includes resolve.
+
 ### Python Scripting Guidelines
 
 - In Python scripts, use PEP 723 metadata to specify dependencies.

@@ -106,6 +106,10 @@
   -u  ->  Display pathnames with UNIX-style forward slashes (default).
   -w  ->  Display pathnames with Windows-style backslashes.
   ```
+
+- Never recursively `grep` the entire filesystem. Recursive `grep` commands are fine in directories
+  that do not contain too many files.
+
 ## Installed Compilers and Tools
 
 - The following compilers and tools are installed and available in the Bash shell: `gcc`, `g++`,
@@ -133,9 +137,7 @@
 - Default to Cygwin's `python` for scripts you run yourself from the Bash shell, because it matches
   the shell's filesystem view (pipes, redirects, and the `/c` ... `/z` symlinks).
 
-- For a script that something else launches, use and test with that same interpreter. Scripts run by
-  the Claude Code harness (the `statusLine` command and `settings.json` hooks) are launched by the
-  native Windows Python, so write and verify those with `py.exe`, not Cygwin `python`. Testing under
+- For a script that something else launches, use and test with that same interpreter. Testing under
   the wrong interpreter can pass while production fails.
 
 - When a script may run under either interpreter, parse pathnames separator-agnostically (for
@@ -186,10 +188,8 @@
 
 ## Editing Source Code
 
-- Many of my source files (especially the AutoHotkey scripts under `~/bin/win32/autohotkey`) mix
-  indentation styles: code lines use leading tabs, while wrapped comment lines and some other lines
-  use leading spaces (or tabs plus trailing spaces). Mid-line tabs are also used to align columns in
-  array and `Map` literals and before trailing comments.
+- Many of my source files mix tabs and spaces in indentation. Mid-line tabs and spaces are also used
+  to align columns in array and `Map` literals and before trailing comments.
 
 - The string-replacement Edit tool requires its `old_string` to match the file byte-for-byte,
   including every tab and space. Although tabs and spaces are distinct characters that are present
@@ -207,14 +207,9 @@
 
   3. For tricky multi-line regions, perform the replacement with a scripted literal `str.replace`
      (for example, a small Python script that reads the file, asserts the old text matches exactly
-     once, replaces it, and writes it back). This sidesteps the invisible-whitespace problem
-     entirely.
+     once, replaces it, and writes it back).
 
-- Do not mass-convert these files from tabs to spaces (or vice versa) to make editing easier. It is
-  a large whitespace-only churn, and plain `expand` would also convert the mid-line alignment tabs
-  and misalign the literals. If I explicitly ask for such a conversion, use `expand -i -t<width>`
-  (the `-i`/`--initial` flag converts only leading whitespace and preserves alignment tabs), match
-  `<width>` to the file's tab width, then re-validate the result and check the 100-column limit.
+- Do not mass-convert files from tabs to spaces (or vice versa) to make editing easier.
 
 - After editing an AutoHotkey v2 script, syntax-check it without running it via `AutoHotkey64.exe
   /validate 'C:\path\to\script.ahk'` (exit code 0 and no output means success). Validate the
@@ -301,26 +296,3 @@ guidelines:
 
 - When using GCC to build a graphical application, always pass switch `-Wl,--subsystem,windows` so
   that the application does not create a console window when it is launched.
-
-# Claude Code Configuration
-
-- In `settings.json`, any command the harness runs through a shell (such as `statusLine.command` or
-  hook commands) is executed via Cygwin Bash, which strips unquoted backslashes. Quote paths as
-  follows:
-
-  - For the executable, use a Cygwin forward-slash absolute path with no backslashes (for example,
-    `/c/Windows/py.exe`). Do not use `C:\Windows\py.exe`, because Bash mangles the unquoted
-    backslashes into `C:Windowspy.exe` ("command not found"), and single-quoting a backslash path
-    (`'C:\Windows\py.exe'`) fails because Cygwin Bash cannot exec it.
-
-  - For arguments passed to a native Windows program, use a single-quoted Windows path so the
-    backslashes survive (for example, `'C:\franl\bin\claude-statusline'`).
-
-  - Prefer an absolute forward-slash path over relying on `PATH` for the executable, because a
-    `.bash_profile` edit that drops `C:\Windows` from `PATH` will silently disable the command.
-
-  - Working example (status line): `"command": "/c/Windows/py.exe
-    'C:\\franl\\bin\\claude-statusline'"`
-
-- The harness hot-reloads `settings.json`: editing the file takes effect immediately in all running
-  Claude Code CLI sessions, with no restart needed.

@@ -102,7 +102,7 @@
   -r  ->  Match filenames using the given REGEX instead of a fixed STRING.
   -d  ->  Sort results by modification time (newest first).
   -s  ->  Sort results by size (largest first)
-  -f  ->  Show only the result pathnames without the DTM or size.
+  -f  ->  Show only pathnames, without modification times or sizes.
   -u  ->  Display pathnames with UNIX-style forward slashes (default).
   -w  ->  Display pathnames with Windows-style backslashes.
   ```

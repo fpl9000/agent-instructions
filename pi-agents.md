@@ -107,9 +107,9 @@ $ es -d '/.git/FETCH_HEAD$'
 $ es -s D:/
 ```
 
-  - Use forward slashes in STRING and REGEX, otherwise if you use backslashes, they must be escaped using single quotes or by doubling each one.
+- Use forward slashes in STRING and REGEX, otherwise if you use backslashes, they must be escaped using single quotes or by doubling each one.
 
-  - `es` does not match against Cygwin-style absolute pathname prefixes, `/cygpath/...`, `/c/...`, `/d/...`, etc. When matching the prefix of an absolute pathname, use a Windows-style drive letter (`C:/...`, `D:/...`, etc.)
+- `es` does not match against Cygwin-style absolute pathname prefixes, `/cygpath/...`, `/c/...`, `/d/...`, etc. When matching the prefix of an absolute pathname, use a Windows-style drive letter (`C:/...`, `D:/...`, etc.)
 
 - Never recursively `grep` the entire filesystem. Recursive `grep` commands are acceptable in directories that do not contain too many files. If in doubt, use the `es` tool to quickly count the files below a given directory.
 

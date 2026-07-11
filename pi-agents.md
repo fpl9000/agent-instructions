@@ -55,29 +55,25 @@
 
 ## Pathnames in Bash Commands
 
-- I communicate pathnames to you in Cygwin style (for example, `/c/franl/bin/...`, `/c/temp`,
-  `~/bin`), not Windows style.
+- I give pathnames to you in both Cygwin-style (`/c/franl/bin/...`, `/c/temp`, `~/bin`, etc.), and
+  Windows-style (`C:\franl\bin`, `C:\temp`, etc.).
 
-  - Interpret my paths as Cygwin-style, and translate them yourself to whatever format each tool
-    needs: Cygwin `/c/...` for the Bash tool, and Windows `C:\...` for the harness file tools
-    (Read/Write/Edit) and native Windows apps. That translation is your responsibility, not mine.
-
-- For relative pathnames in Bash commands:
+- Use relative pathnames in Bash commands as follows:
 
   1. When invoking Cygwin apps, relative pathnames should use forward slashes. Example: `COMMAND
      path/to/file`.
 
-  2. When invoking native Windows apps, relative pathnames should use backslashes and be
-     single-quoted to escape the backslashes. Example: `COMMAND 'path\to\file'`.
+  2. When invoking native Windows apps and your file access tools, relative pathnames should use
+     backslashes and be single-quoted to escape the backslashes. Example: `COMMAND 'path\to\file'`.
 
-- For absolute pathnames in Bash commands:
+- Use absolute pathnames in Bash commands as follows:
 
   1. When invoking Cygwin apps, absolute pathnames should start with a slash, followed by a Windows
      drive letter. Example: `COMMAND /c/path/to/file`.
 
-  2. When invoking native Windows apps, absolute pathnames should contain backslashes, should be
-     single-quoted to escape the backslashes, and should have a leading drive letter. Example:
-     `COMMAND 'C:\path\to\file'`.
+  2. When invoking native Windows apps and your file access tools, absolute pathnames should contain
+     backslashes, should be single-quoted to escape the backslashes, and should have a leading drive
+     letter. Example: `COMMAND 'C:\path\to\file'`.
 
 - In all cases, if a pathname contains whitespace or Bash metacharacters, the entire pathname must
   be single-quoted, regardless of whether it is being given to a Cygwin app or a native Windows app.
@@ -88,27 +84,36 @@
 ## Finding Files and Searching Their Contents
 
 - Do not use `find` to search the filesystem for files by name. Instead, use the `es` command in
-  Bash. It's a CLI front-end to the Everything search tool that does almost instantaneous
-  filesystem-wide filename searches.
+  Bash. `es` is a CLI front-end to the Everything search app that does extremely fast
+  filesystem-wide pathname searches.
 
 - Run `es --help` for full usage. This is the abbreviated usage:
 
   ```
   usage: es [ -d | -s | -f ] [ -u | -w ] [ STRING | -r REGEX ]
 
-  Matching is always case-insensitive. Matches across '/' chars in the pathname. Sorts by
-  absolute pathname by default. Quote STRING and REGEX to escape shell metacharacters.
+  Matching is always case-insensitive. Matches '/' chars in pathnames (see examples in full
+  usage). Quote STRING and REGEX to escape shell metacharacters. Sorts by absolute pathname by
+  default.
 
-  -r  ->  Match filenames using the given REGEX instead of a fixed STRING.
+  -r  ->  Match pathnames using the given REGEX instead of a fixed STRING.
+  -f  ->  Show only pathnames, without modification times or sizes.
   -d  ->  Sort results by modification time (newest first).
   -s  ->  Sort results by size (largest first)
-  -f  ->  Show only pathnames, without modification times or sizes.
   -u  ->  Display pathnames with UNIX-style forward slashes (default).
   -w  ->  Display pathnames with Windows-style backslashes.
   ```
 
-- Never recursively `grep` the entire filesystem. Recursive `grep` commands are fine in directories
-  that do not contain too many files.
+  - Use forward slashes in STRING and REGEX, otherwise if you use backslashes, they must be escaped
+    using single quotes or by doubling each one.
+
+  - `es` does not match against Cygwin-style absolute pathname prefixes, `/cygpath/...`, `/c/...`,
+    `/d/...`, etc. When matching the prefix of an absolute pathname, use a Windows-style drive
+    letter (`C:/...`, `D:/...`, etc.)
+
+- Never recursively `grep` the entire filesystem. Recursive `grep` commands are acceptable in
+  directories that do not contain too many files. If in doubt, use the `es` tool to quickly count
+  the files below a given directory.
 
 ## Installed Compilers and Tools
 

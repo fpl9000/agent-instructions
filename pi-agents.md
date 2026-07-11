@@ -4,20 +4,15 @@
 
 - Cygwin's `/bin` directory is in the `PATH` environment variable.
 
-- Your Bash commands are executed by the Cygwin Bash shell at `C:\apps\cygwin\bin\bash.exe`, which
-  is at `/bin/bash` inside any Cygwin app.
+- Your Bash tool executes commands in the Cygwin Bash shell located at `C:\apps\cygwin\bin\bash.exe`, which is `/bin/bash` inside any Cygwin app.
 
-- Most Linux commands are available in the Cygwin Bash shell. If you need any that are not
-  installed, ask me to install them.
+- Most Linux commands are available in the Cygwin Bash shell. If you need any that are not installed, ask me to install them.
 
-- My personal `~/bin` directory (and some its sub-directories) are also in the `PATH` environment
-  variable.
+- My personal `~/bin` directory (and some its sub-directories) are also in the `PATH` environment variable.
 
-  - Directory `~/bin` and its sub-directories contain scripts and tools that I regularly use. You're
-    free to use or copy them, but read them before running them.
+  - Directory `~/bin` and its sub-directories contain scripts and tools that I regularly use. You're free to use or copy them, but read them before running them.
 
-- The Cygwin man pages are installed. Use `man COMMAND >/tmp/man.txt` to save a man page in plain
-  text that you can read.
+- The Cygwin man pages are installed. Use `man COMMAND >/tmp/man.txt` to save a man page in plain text that you can read.
 
 - Cygwin symlinks corresponding to each Windows drive letter have been created as follows:
 
@@ -29,96 +24,98 @@
   /z -> /cygdrive/z
   ```
 
-  - Keep in mind that native Windows apps and commands cannot follow Cygwin symlinks, even when
-    invoked from a Cygwin Bash shell.
+  - Keep in mind that native Windows apps and commands cannot follow Cygwin symlinks, even when invoked from a Cygwin Bash shell.
 
   - The target of a Cygwin symlink can found using `readlink -m SYMLINK`.
 
 ## Home Directories
 
-- My Cygwin home directory is `C:\franl\`. My Windows home directory is `C:\Users\flitt\`.
+- My Cygwin home directory is `C:\franl`. My Windows home directory is `C:\Users\flitt`.
 
-- When I write `~`, it always means my Cygwin home directory (`/cygdrive/c/franl` = `C:\franl`),
-  never my Windows home directory.
+- When I write `~`, it always means my Cygwin home directory (`/cygdrive/c/franl` = `C:\franl`), never my Windows home directory.
 
-- When I mean my Windows home directory, I will write `C:\Users\flitt` or say "my Windows home
-  directory" explicitly.
+- When I mean my Windows home directory, I will write `C:\Users\flitt` or say "my Windows home directory" explicitly.
 
-- In a Cygwin Bash shell and all Cygwin apps, the value of environment variable `HOME` is
-  `/cygdrive/c/franl`, my Cygwin home directory.
+- In a Cygwin Bash shell and all Cygwin apps, the value of environment variable `HOME` is `/cygdrive/c/franl`, my Cygwin home directory.
 
-- In all Windows apps, even those spawned by a Cygwin app, the value of `HOME` is `C:\franl`, even
-  though that is not my windows home directory. This causes most Windows apps to use my Cygwin home
-  directory, though some still use `C:\Users\flitt\`.
+- In all Windows apps, even those spawned by a Cygwin app, the value of `HOME` is `C:\franl`, even though that is not my windows home directory. This causes most Windows apps to use my Cygwin home directory, though some still use `C:\Users\flitt\`.
 
 - The above is also true when a Cygwin or Windows app spawns an app of the other kind.
 
 ## Pathnames in Bash Commands
 
-- I give pathnames to you in both Cygwin-style (`/c/franl/bin/...`, `/c/temp`, `~/bin`, etc.), and
-  Windows-style (`C:\franl\bin`, `C:\temp`, etc.).
+- I give pathnames to you in both Cygwin-style (`/c/franl/bin/...`, `/c/temp`, `~/bin`, etc.), and Windows-style (`C:\franl\bin`, `C:\temp`, etc.).
 
 - Use relative pathnames in Bash commands as follows:
 
-  1. When invoking Cygwin apps, relative pathnames should use forward slashes. Example: `COMMAND
-     path/to/file`.
+  1. When invoking Cygwin apps, relative pathnames should use forward slashes. Example: `COMMAND path/to/file`.
 
-  2. When invoking native Windows apps and your file access tools, relative pathnames should use
-     backslashes and be single-quoted to escape the backslashes. Example: `COMMAND 'path\to\file'`.
+  2. When invoking native Windows apps and your file access tools, relative pathnames should use backslashes and be single-quoted to escape the backslashes. Example: `COMMAND 'path\to\file'`.
 
 - Use absolute pathnames in Bash commands as follows:
 
-  1. When invoking Cygwin apps, absolute pathnames should start with a slash, followed by a Windows
-     drive letter. Example: `COMMAND /c/path/to/file`.
+  1. When invoking Cygwin apps, absolute pathnames should start with a slash, followed by a Windows drive letter. Example: `COMMAND /c/path/to/file`.
 
-  2. When invoking native Windows apps and your file access tools, absolute pathnames should contain
-     backslashes, should be single-quoted to escape the backslashes, and should have a leading drive
-     letter. Example: `COMMAND 'C:\path\to\file'`.
+  2. When invoking native Windows apps and your file access tools, absolute pathnames should contain backslashes, should be single-quoted to escape the backslashes, and should have a leading drive letter. Example: `COMMAND 'C:\path\to\file'`.
 
-- In all cases, if a pathname contains whitespace or Bash metacharacters, the entire pathname must
-  be single-quoted, regardless of whether it is being given to a Cygwin app or a native Windows app.
+- In all cases, if a pathname contains whitespace or Bash metacharacters, the entire pathname must be single-quoted, regardless of whether it is being given to a Cygwin app or a native Windows app.
 
-- If single-quotes are not an option for any reason, escape each backslash with another backslash,
-  as follows: `C:\\path\\to\\file`.
+- If single-quotes are not an option for any reason, escape each backslash with another backslash, as follows: `C:\\path\\to\\file`.
+
+- An oddity: When a native Windows process starts a Cygwin program, the Cygwin runtime re-parses the Windows command line and performs its own glob/brace expansion, which can corrupt the final command line. Additional quoting should fix this.
+
+## Pathnames in Your File Access Tools
+
+- Your file access tools do not understand Cygwin-style pathnames.
+
+- Always give Windows-style pathnames to your file access tools.
 
 ## Finding Files and Searching Their Contents
 
-- Do not use `find` to search the filesystem for files by name. Instead, use the `es` command in
-  Bash. `es` is a CLI front-end to the Everything search app that does extremely fast
-  filesystem-wide pathname searches.
+- Do not use `find` to search the filesystem for files by name. Instead, use the `es` command in Bash. `es` is a CLI front-end to the Everything search app that does extremely fast filesystem-wide pathname searches.
 
-- Run `es --help` for full usage. This is the abbreviated usage:
+- Run `es --help` for to see this usage:
 
-  ```
-  usage: es [ -d | -s | -f ] [ -u | -w ] [ STRING | -r REGEX ]
+```
+usage: $ME [ -d | -s | -f ] [ -u | -w ] [ STRING | -r REGEX ]
 
-  Matching is always case-insensitive. Matches '/' chars in pathnames (see examples in full
-  usage). Quote STRING and REGEX to escape shell metacharacters. Sorts by absolute pathname by
-  default.
+Shows pathnames on local disks matching STRING (or REGEX with switch '-r'). The search is
+case-insensitive and matches anywhere in the absolute pathname, so STRING and REGEX can
+match `/` characters in the pathname. Results are sorted by absolute pathname by default.
 
-  -r  ->  Match pathnames using the given REGEX instead of a fixed STRING.
-  -f  ->  Show only pathnames, without modification times or sizes.
-  -d  ->  Sort results by modification time (newest first).
-  -s  ->  Sort results by size (largest first)
-  -u  ->  Display pathnames with UNIX-style forward slashes (default).
-  -w  ->  Display pathnames with Windows-style backslashes.
-  ```
+The output contains forward slashes (`/`) by default. Use -w to get backslashes.
 
-  - Use forward slashes in STRING and REGEX, otherwise if you use backslashes, they must be escaped
-    using single quotes or by doubling each one.
+IMPORTANT: If STRING or REGEX contain shell metacharacters (e.g., `*`, `?`, `|`, etc.),
+they must be properly quoted.
 
-  - `es` does not match against Cygwin-style absolute pathname prefixes, `/cygpath/...`, `/c/...`,
-    `/d/...`, etc. When matching the prefix of an absolute pathname, use a Windows-style drive
-    letter (`C:/...`, `D:/...`, etc.)
+-r  ->  Match filenames using the given REGEX instead of a fixed STRING.
+-f  ->  Show only pathnames, without modification times or sizes.
+-d  ->  Sort results by modification time (newest first).
+-s  ->  Sort results by size (largest first)
+-u  ->  Display pathnames with UNIX-style forward slashes (default).
+-w  ->  Display pathnames with Windows-style backslashes.
 
-- Never recursively `grep` the entire filesystem. Recursive `grep` commands are acceptable in
-  directories that do not contain too many files. If in doubt, use the `es` tool to quickly count
-  the files below a given directory.
+Examples:
+
+# Show all files named 'foo' under any sub-directory of 'franl'.
+$ es -f -r '/franl/.*/foo$'
+
+# Show all files named 'FETCH_HEAD' in a '.git' folder, sorted by modification time.
+$ es -d '/.git/FETCH_HEAD$'
+
+# Show all files on the D: drive, sorted by size.
+$ es -s D:/
+```
+
+  - Use forward slashes in STRING and REGEX, otherwise if you use backslashes, they must be escaped using single quotes or by doubling each one.
+
+  - `es` does not match against Cygwin-style absolute pathname prefixes, `/cygpath/...`, `/c/...`, `/d/...`, etc. When matching the prefix of an absolute pathname, use a Windows-style drive letter (`C:/...`, `D:/...`, etc.)
+
+- Never recursively `grep` the entire filesystem. Recursive `grep` commands are acceptable in directories that do not contain too many files. If in doubt, use the `es` tool to quickly count the files below a given directory.
 
 ## Installed Compilers and Tools
 
-- The following compilers and tools are installed and available in the Bash shell: `gcc`, `g++`,
-  `go`, `rustc`, `cargo`, `python`, `uv`, `uvx`, `npm`, `npx`, `git`, and `gh`.
+- The following compilers and tools are installed and available in the Bash shell: `gcc`, `g++`, `go`, `rustc`, `cargo`, `python`, `uv`, `uvx`, `npm`, `npx`, `git`, and `gh`.
 
 - Node.js is installed and can be executed using command `node`.
 
@@ -128,28 +125,19 @@
 
 ## Choosing a Python Interpreter
 
-- Three Python interpreters are available, and they behave differently in ways that cause subtle
-  bugs, so choose deliberately:
+- Three Python interpreters are available, and they behave differently in ways that cause subtle bugs, so choose deliberately:
 
-  - Cygwin's `python` (`/usr/bin/python`) is a POSIX build: `os.path` uses posixpath (forward-slash)
-    semantics, `os.getcwd()` returns a `/cygdrive/...` path, and it can follow the Cygwin drive
-    symlinks (`/c` ... `/z`).
+  - Cygwin's `python` (`/usr/bin/python`) is a POSIX build: `os.path` uses posixpath (forward-slash) semantics, `os.getcwd()` returns a `/cygdrive/...` path, and it can follow the Cygwin drive symlinks (`/c` ... `/z`).
 
-  - The native Windows Python (`/c/Windows/py.exe`, which runs `C:\Program
-    Files\Python313\python.exe`) uses backslash-aware `ntpath` semantics, `os.getcwd()` returns a
-    `C:\...` path, and it cannot follow Cygwin symlinks.
+  - The native Windows Python (`/c/Windows/py.exe`, which runs `C:\Program Files\Python313\python.exe`) uses backslash-aware `ntpath` semantics, `os.getcwd()` returns a `C:\...` path, and it cannot follow Cygwin symlinks.
 
-- Default to Cygwin's `python` for scripts you run yourself from the Bash shell, because it matches
-  the shell's filesystem view (pipes, redirects, and the `/c` ... `/z` symlinks).
+- Default to Cygwin's `python` for scripts you run yourself from the Bash shell, because it matches the shell's filesystem view (pipes, redirects, and the `/c` ... `/z` symlinks).
 
-- For a script that something else launches, use and test with that same interpreter. Testing under
-  the wrong interpreter can pass while production fails.
+- For a script that something else launches, use and test with that same interpreter. Testing under the wrong interpreter can pass while production fails.
 
-- When a script may run under either interpreter, parse pathnames separator-agnostically (for
-  example, split on both `/` and `\`) rather than relying on `os.path`.
+- When a script may run under either interpreter, parse pathnames separator-agnostically (for example, split on both `/` and `\`) rather than relying on `os.path`.
 
-- For standalone script deliverables, keep using PEP 723 metadata with `uv`/`uvx` (see the Python
-  Scripting Guidelines below); `uv` provisions its own interpreter.
+- For standalone script deliverables, keep using PEP 723 metadata with `uv`/`uvx` (see the Python Scripting Guidelines below); `uv` provisions its own interpreter.
 
 # Creating and Editing Files
 
@@ -165,13 +153,11 @@
 
 - When you modify existing files, you must use the same newline convention as the rest of the file.
 
-- Never convert an existing file from one newline convention to the other. If you have a compelling
-  reason to do this, confirm with the user first.
+- Never convert an existing file from one newline convention to the other. If you have a compelling reason to do this, confirm with the user first.
 
 ## Writing Markdown
 
-- It's OK to have indefinitely long lines (despite the below rule to limit the length of source code
-  lines), because Markdown renderers handle that gracefully.
+- It's OK to have indefinitely long lines (despite the below rule to limit the length of source code lines), because Markdown renderers handle that gracefully.
 
 - Avoid hard line breaks with `<br/>`, because not all renderers handle that.
 
@@ -185,41 +171,29 @@
 
 - Avoid single-character identfiers.
 
-- In loops, use meaningful identifiers, such as `index`, `counter`, and `loopCount`, instead of
-  single-character identifiers.
+- In loops, use meaningful identifiers, such as `index`, `counter`, and `loopCount`, instead of single-character identifiers.
 
-- Prefer Python and Bash as scripting languages. Avoid Windows batch scripts and Powershell scripts,
-  unless absolutely necessary.
+- Prefer Python and Bash as scripting languages. Avoid Windows batch scripts and Powershell scripts, unless absolutely necessary.
 
 ## Editing Source Code
 
-- Many of my source files mix tabs and spaces in indentation. Mid-line tabs and spaces are also used
-  to align columns in array and `Map` literals and before trailing comments.
+- Many of my source files mix tabs and spaces in indentation. Mid-line tabs and spaces are also used to align columns in array and `Map` literals and before trailing comments.
 
-- The string-replacement Edit tool requires its `old_string` to match the file byte-for-byte,
-  including every tab and space. Although tabs and spaces are distinct characters that are present
-  in Read output, you cannot reproduce a mixed-whitespace region with byte-exact reliability by
-  retyping it, so the match silently fails.
+- The string-replacement edit tool requires its `old_string` to match the file byte-for-byte, including every tab and space.
 
-- When an Edit fails on such a file, do not keep retrying with guessed whitespace. Instead, use one
-  of these reliable approaches:
+- Although tabs and spaces are distinct characters that are present in the read tool's output, you cannot reproduce a mixed-whitespace region with byte-exact reliability by retyping it, so the match silently fails.
 
-  1. Anchor the `old_string` on a short, unique single line that has little or no leading
-     whitespace.
+- When an edit fails on such a file, do not keep retrying with guessed whitespace. Instead, use one of these reliable approaches:
 
-  2. Run `cat -A` (or `sed -n 'START,ENDp' FILE | cat -A`) on the target region first to see the
-     real tabs (`^I`) and spaces, then reproduce them exactly.
+  1. Anchor the `old_string` on a short, unique single line that has little or no leading whitespace.
 
-  3. For tricky multi-line regions, perform the replacement with a scripted literal `str.replace`
-     (for example, a small Python script that reads the file, asserts the old text matches exactly
-     once, replaces it, and writes it back).
+  2. Run `cat -A` (or `sed -n 'START,ENDp' FILE | cat -A`) on the target region first to see the real tabs (`^I`) and spaces, then reproduce them exactly.
+
+  3. For tricky multi-line regions, perform the replacement with a scripted literal `str.replace` (for example, a small Python script that reads the file, asserts the old text matches exactly once, replaces it, and writes it back).
 
 - Do not mass-convert files from tabs to spaces (or vice versa) to make editing easier.
 
-- After editing an AutoHotkey v2 script, syntax-check it without running it via `AutoHotkey64.exe
-  /validate 'C:\path\to\script.ahk'` (exit code 0 and no output means success). Validate the
-  top-level script that `#Include`s the edited file, not the included fragment alone, so that
-  globals and other includes resolve.
+- After editing an AutoHotkey v2 script, syntax-check it without running it via `AutoHotkey64.exe /validate 'C:\path\to\script.ahk'` (exit code 0 and no output means success). Validate the top-level script that `#Include`s the edited file, not the included fragment alone, so that globals and other includes resolve.
 
 ### Python Scripting Guidelines
 
@@ -229,17 +203,13 @@
 
 ### Bash Scripting Guidelines
 
-- In Bash scripts, all variable names must be fully uppercase, as follows: `COUNT=0`,
-  `FILENAME="file.txt"`, etc.
+- In Bash scripts, all variable names must be fully uppercase, as follows: `COUNT=0`, `FILENAME="file.txt"`, etc.
 
-- In Bash scripts, local variables in Bash functions must start with a leading underscore to avoid
-  shadowing global variables, as follows: `local _COUNTER=0`. Conversely, never use a leading
-  underscore in a global variable.
+- In Bash scripts, local variables in Bash functions must start with a leading underscore to avoid shadowing global variables, as follows: `local _COUNTER=0`. Conversely, never use a leading underscore in a global variable.
 
 - Prefer the new test command (`[[ ... ]]`) instead of the traditional one (`[ ... ]`).
 
-  - Use the proper argument syntax for the new test command, such as using `&&` instead of `-a` to
-    indicate Boolean AND operations, and `||` instead of `-o` to indicate Boolean OR operations.
+  - Use the proper argument syntax for the new test command, such as using `&&` instead of `-a` to indicate Boolean AND operations, and `||` instead of `-o` to indicate Boolean OR operations.
 
 ### Comments in Source Code
 
@@ -249,43 +219,33 @@
 
 - Put comments on the line above the code they reference, rather than on the same line.
 
-- Comments can appear on the same line as code only if the comment is very short. In this case, the
-  comment is exempt from the rule that it must be a complete sentence.
+- Comments can appear on the same line as code only if the comment is very short. In this case, the comment is exempt from the rule that it must be a complete sentence.
 
-- Comments should explain the purpose and rationale of the code and not simply restate what the code
-  does.
+- Comments should explain the purpose and rationale of the code and not simply restate what the code does.
 
 - Do not talk to the user through comments in code.
 
-- Aim to have nearly the same number of lines of comments as lines of code. This is a guideline not
-  a hard and fast rule.
+- Aim to have nearly the same number of lines of comments as lines of code. This is a guideline not a hard and fast rule.
 
-- Do not comment trivial code, such as Python and Go `import` statements or the initialization of
-  local variables, unless the comment explains something important for a developer to understand.
+- Do not comment trivial code, such as Python and Go `import` statements or the initialization of local variables, unless the comment explains something important for a developer to understand.
 
 # Accessing GitHub
 
 - You have read access and write access to my GitHub repositories, as follows:
 
-  - Use command `git` to access my GitHub repositories. No credentials are needed because SSH access
-    to GitHub is already configured.
+  - Use command `git` to access my GitHub repositories. No credentials are needed because SSH access to GitHub is already configured.
   - My GitHub user name is `fpl9000`.
   - My GitHub profile is located at `https://github.com/fpl9000`.
 
 ## Writing Skills
 
-A skill is a collection of files (commonly packaged in ZIP format) with the extension `.skill` that
-can be read by an AI at inference-time to learn new skills. When you write a skill, follow these
-guidelines:
+A skill is a collection of files (commonly packaged in ZIP format) with the extension `.skill` that can be read by an AI at inference-time to learn new skills. When you write a skill, follow these guidelines:
 
 - The skill syntax specification is available at `https://agentskills.io`.
 
-- Do not add any directories to a skill other than the standard ones defined by the Agent Skills
-  specification, which are `scripts`, `references`, and `assets`.
+- Do not add any directories to a skill other than the standard ones defined by the Agent Skills specification, which are `scripts`, `references`, and `assets`.
 
-- Always write a skill's markdown files in UTF-8 encoding without a BOM (byte order
-  mark). Non-markdown files in a skill might need to deviate from this rule, such as scripts that do
-  not work when written a non-ANSI encoding.
+- Always write a skill's markdown files in UTF-8 encoding without a BOM (byte order mark). Non-markdown files in a skill might need to deviate from this rule, such as scripts that do not work when written a non-ANSI encoding.
 
 - Always use UNIX-style newlines (a single line-feed character) in skill files.
 
@@ -293,11 +253,8 @@ guidelines:
 
 # Building Applications
 
-- When running commands to build executables, make sure the executable name ends with `.exe`,
-  because this is a Windows system.
+- When running commands to build executables, make sure the executable name ends with `.exe`, because this is a Windows system.
 
-- When building a graphical Go application, always pass switch `-ldflags "-H windowsgui"` so that
-  the application does not create a console window when it is launched.
+- When building a graphical Go application, always pass switch `-ldflags "-H windowsgui"` so that the application does not create a console window when it is launched.
 
-- When using GCC to build a graphical application, always pass switch `-Wl,--subsystem,windows` so
-  that the application does not create a console window when it is launched.
+- When using GCC to build a graphical application, always pass switch `-Wl,--subsystem,windows` so that the application does not create a console window when it is launched.

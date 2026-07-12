@@ -62,7 +62,9 @@
 
 ## Finding Files
 
-- Do not use `find` to search the filesystem for files by name. Instead, use the `es` command in Bash. `es` is a CLI front-end to the Everything search app that does extremely fast filesystem-wide pathname searches.
+- Do not use `find` to search the entire filesystem by file name, though it's OK to use it for searching by other criteria.
+
+- Search for files by name using the `es` command in Bash. `es` is a CLI front-end to the Everything search app that does extremely fast filesystem-wide pathname searches.
 
 - Run `es --help` to see this usage:
 
@@ -211,7 +213,7 @@ A skill is a collection of files (packaged in ZIP format) with the extension `.s
 
 - In Python scripts, use PEP 723 metadata to specify dependencies.
 
-- This allows `uv` and `uvx` to automatically obtain dependencies when the script is run.
+- Using PEP 723 metadata allows `uv` and `uvx` to automatically obtain dependencies when the script is run.
 
 ### Bash Scripting Guidelines
 
@@ -221,7 +223,7 @@ A skill is a collection of files (packaged in ZIP format) with the extension `.s
 
 - Prefer the new test command (`[[ ... ]]`) instead of the traditional one (`[ ... ]`).
 
-  - Use the proper argument syntax for the new test command, such as using `&&` instead of `-a` to indicate Boolean AND operations, and `||` instead of `-o` to indicate Boolean OR operations.
+- Use the proper argument syntax for the new test command, such as using `&&` instead of `-a` to indicate Boolean AND operations, and `||` instead of `-o` to indicate Boolean OR operations. To see full usage details, run `help [[` in Bash.
 
 ### AutoHotkey Scripting Guidelines
 

@@ -8,11 +8,9 @@
 
 - Most Linux commands are available in the Cygwin Bash shell. If you need any that are not installed, ask me to install them.
 
-- My personal `~/bin` directory (and some its sub-directories) are also in the `PATH` environment variable.
+- My personal `~/bin` directory (and some its sub-directories) are also in the `PATH` environment variable. I commonly put wrapper scripts that launch Windows apps in `~/bin/win32`. This avoids adding a lot of directories to my `PATH`.
 
-  - Directory `~/bin` and its sub-directories contain scripts and tools that I regularly use. You're free to use or copy them, but read them before running them.
-
-- The Cygwin man pages are installed. Use `man COMMAND >/tmp/man.txt` to save a man page in plain text that you can read.
+- The Cygwin man pages are installed. Use `man TOPIC >/tmp/TOPIC.txt` to save a man page in plain text that you can read.
 
 - Cygwin symlinks corresponding to each Windows drive letter have been created as follows:
 
@@ -24,11 +22,11 @@
   /z -> /cygdrive/z
   ```
 
-  - Keep in mind that native Windows apps and commands cannot follow Cygwin symlinks, even when invoked from a Cygwin Bash shell.
+  - Native Windows apps and commands cannot follow Cygwin symlinks, even when invoked from a Cygwin Bash shell.
 
-  - The target of a Cygwin symlink can found using `readlink -m SYMLINK`.
+  - The target of a Cygwin symlink can found using Cygwin command `readlink -m SYMLINK`.
 
-## Home Directories
+## My Two Home Directories
 
 - My Cygwin home directory is `C:\franl`. My Windows home directory is `C:\Users\flitt`.
 
@@ -38,31 +36,23 @@
 
 - In a Cygwin Bash shell and all Cygwin apps, the value of environment variable `HOME` is `/cygdrive/c/franl`, my Cygwin home directory.
 
-- In all Windows apps, even those spawned by a Cygwin app, the value of `HOME` is `C:\franl`, even though that is not my windows home directory. This causes most Windows apps to use my Cygwin home directory, though some still use `C:\Users\flitt\`.
-
-- The above is also true when a Cygwin or Windows app spawns an app of the other kind.
+- In all Windows apps, even those spawned by a Cygwin app, the value of `HOME` is `C:\franl`, even though that is not my Windows home directory. This causes some Windows apps to use my Cygwin home directory, though some still use `C:\Users\flitt\`. This can be confusing, so please be careful with any activity involving my home directories.
 
 ## Pathnames in Bash Commands
 
-- I give pathnames to you in both Cygwin-style (`/c/franl/bin/...`, `/c/temp`, `~/bin`, etc.), and Windows-style (`C:\franl\bin`, `C:\temp`, etc.).
+- I will give pathnames to you in both Cygwin-style (`/c/franl/bin/...`, `/c/temp`, `~/bin`, etc.), and Windows-style (`C:\franl\bin`, `C:\temp`, etc.). It is your responsibility to convert them between styles depending on which tool you are giving them to. This section and the next will guide you with this.
 
-- Use relative pathnames in Bash commands as follows:
+- Use pathnames in Bash commands as follows:
 
-  1. When invoking Cygwin apps, relative pathnames should use forward slashes. Example: `COMMAND path/to/file`.
+  1. When invoking a Cygwin app from Bash, all pathnames should use forward slashes and, and absolute pathnames should have a `/cygdrive/...` prefix. Example: `ls -l path/to/file /cygdrive/e/somefile`.
 
-  2. When invoking native Windows apps and your file access tools, relative pathnames should use backslashes and be single-quoted to escape the backslashes. Example: `COMMAND 'path\to\file'`.
-
-- Use absolute pathnames in Bash commands as follows:
-
-  1. When invoking Cygwin apps, absolute pathnames should start with a slash, followed by a Windows drive letter. Example: `COMMAND /c/path/to/file`.
-
-  2. When invoking native Windows apps and your file access tools, absolute pathnames should contain backslashes, should be single-quoted to escape the backslashes, and should have a leading drive letter. Example: `COMMAND 'C:\path\to\file'`.
+  2. When invoking a native Windows app from Bash, all pathnames should use backslashes, be single-quoted to escape the backslashes, and absolute pathnames should have a Windows drive letter prefix. Examples: `powershell -File 'path\to\script.ps1'` and `powershell -File 'C:\temp\script.ps1`.
 
 - In all cases, if a pathname contains whitespace or Bash metacharacters, the entire pathname must be single-quoted, regardless of whether it is being given to a Cygwin app or a native Windows app.
 
-- If single-quotes are not an option for any reason, escape each backslash with another backslash, as follows: `C:\\path\\to\\file`.
+- If single-quotes are not an option for escaping metacharacters, escape each one with a backslash.
 
-- An oddity: When a native Windows process starts a Cygwin program, the Cygwin runtime re-parses the Windows command line and performs its own glob/brace expansion, which can corrupt the final command line. Additional quoting should fix this.
+- A oddity of Cygwin: When a native Windows process starts a Cygwin program, the Cygwin runtime re-parses the Windows command line and performs its own glob/brace expansion, which can corrupt the final command line. Additional argument quoting should fix this.
 
 ## Pathnames in Your File Access Tools
 
@@ -70,11 +60,11 @@
 
 - Always give Windows-style pathnames to your file access tools.
 
-## Finding Files and Searching Their Contents
+## Finding Files
 
 - Do not use `find` to search the filesystem for files by name. Instead, use the `es` command in Bash. `es` is a CLI front-end to the Everything search app that does extremely fast filesystem-wide pathname searches.
 
-- Run `es --help` for to see this usage:
+- Run `es --help` to see this usage:
 
 ```
 usage: $ME [ -d | -s | -f ] [ -u | -w ] [ STRING | -r REGEX ]
@@ -97,25 +87,33 @@ they must be properly quoted.
 
 Examples:
 
-# Show all files named 'foo' under any sub-directory of 'franl'.
-$ es -f -r '/franl/.*/foo$'
+# Show all files and directories under D:/somedir, sorted by size.
+$ es -s D:/somedir/
 
-# Show all files named 'FETCH_HEAD' in a '.git' folder, sorted by modification time.
-$ es -d '/.git/FETCH_HEAD$'
+# Show all items with names starting 'foo' under any sub-directory of 'franl' on any drive.
+$ es -f '/franl/.*/foo'
 
-# Show all files on the D: drive, sorted by size.
-$ es -s D:/
+# Show all items named 'FETCH_HEAD' in a '.git' directory, sorted by modification time.
+$ es -d -r '/.git/FETCH_HEAD$'
 ```
 
-- Use forward slashes in STRING and REGEX, otherwise if you use backslashes, they must be escaped using single quotes or by doubling each one.
+- When running `es`, prefer to use forward slashes in `STRING` and `REGEX`, otherwise backslashes must be escaped.
 
-- `es` does not match against Cygwin-style absolute pathname prefixes, `/cygpath/...`, `/c/...`, `/d/...`, etc. When matching the prefix of an absolute pathname, use a Windows-style drive letter (`C:/...`, `D:/...`, etc.)
+- `es` can produce a *lot* of output, depending on the search string/regex. Pipe its output through `head` or other tools to limit it.
 
-- Never recursively `grep` the entire filesystem. Recursive `grep` commands are acceptable in directories that do not contain too many files. If in doubt, use the `es` tool to quickly count the files below a given directory.
+- `es` does not understand Cygwin-style `/cygpath/...` prefixes. When necessary, use a Windows-style drive letter prefix (`C:/...`, `D:/...`, etc.).
+
+## Searching File Contents
+
+- Never recursively `grep` the entire filesystem.
+
+- Recursive `grep` commands are acceptable in directories that don't contain too many files. Use the `es` tool to quickly count the files below a given directory, as follows: `es -f 'C:/path/to/directory/' | wc -l`.
+
+- The `ugrep` utility is available in `PATH`. It's' a drop-in replacement for Gnu `grep` that supports searching UTF-8, UTF-16 and UTF-32 encoded files, PDF documents, and image metadata. Use `ugrep --help` to see usage.
 
 ## Installed Compilers and Tools
 
-- The following compilers and tools are installed and available in the Bash shell: `gcc`, `g++`, `go`, `rustc`, `cargo`, `python`, `uv`, `uvx`, `npm`, `npx`, `git`, and `gh`.
+- The following compilers and tools are installed and available in the Bash shell: `gcc`, `g++`, `go`, `rustc`, `cargo`, `python`, `uv`, `uvx`, `npm`, `npx`, `git`, and `gh`. Some of these are native Window apps, and some are Cygwin apps.
 
 - Node.js is installed and can be executed using command `node`.
 
@@ -125,15 +123,15 @@ $ es -s D:/
 
 ## Choosing a Python Interpreter
 
-- Three Python interpreters are available, and they behave differently in ways that cause subtle bugs, so choose deliberately:
+- Two Python interpreters are available, and they behave differently in ways that cause subtle bugs, so choose deliberately:
 
-  - Cygwin's `python` (`/usr/bin/python`) is a POSIX build: `os.path` uses posixpath (forward-slash) semantics, `os.getcwd()` returns a `/cygdrive/...` path, and it can follow the Cygwin drive symlinks (`/c` ... `/z`).
+  1. Cygwin's `python` (`/usr/bin/python`) is a POSIX build: `os.path` uses Cygwin-style pathnames, `os.getcwd()` returns a `/cygdrive/...` path, and it can follow Cygwin symlinks.
 
-  - The native Windows Python (`/c/Windows/py.exe`, which runs `C:\Program Files\Python313\python.exe`) uses backslash-aware `ntpath` semantics, `os.getcwd()` returns a `C:\...` path, and it cannot follow Cygwin symlinks.
+  2. The native Windows Python (`/c/Windows/py.exe`, which runs `C:\Program Files\Python313\python.exe`) uses backslash-aware `ntpath` semantics, `os.getcwd()` returns a `C:\...` path, and it cannot follow Cygwin symlinks.
 
-- Default to Cygwin's `python` for scripts you run yourself from the Bash shell, because it matches the shell's filesystem view (pipes, redirects, and the `/c` ... `/z` symlinks).
+- Default to Cygwin's `python` for scripts you run yourself from the Bash shell, because it matches the shell's filesystem view (pipes, redirects, and symlinks).
 
-- For a script that something else launches, use and test with that same interpreter. Testing under the wrong interpreter can pass while production fails.
+- For a script that something else launches, use and test with that same Python interpreter. Testing under the wrong interpreter can pass while production fails.
 
 - When a script may run under either interpreter, parse pathnames separator-agnostically (for example, split on both `/` and `\`) rather than relying on `os.path`.
 
@@ -175,7 +173,7 @@ $ es -s D:/
 
 - Prefer Python and Bash as scripting languages. Avoid Windows batch scripts and Powershell scripts, unless absolutely necessary.
 
-## Editing Source Code
+### Editing Source Code
 
 - Many of my source files mix tabs and spaces in indentation. Mid-line tabs and spaces are also used to align columns in array and `Map` literals and before trailing comments.
 
@@ -229,15 +227,7 @@ $ es -s D:/
 
 - Do not comment trivial code, such as Python and Go `import` statements or the initialization of local variables, unless the comment explains something important for a developer to understand.
 
-# Accessing GitHub
-
-- You have read access and write access to my GitHub repositories, as follows:
-
-  - Use command `git` to access my GitHub repositories. No credentials are needed because SSH access to GitHub is already configured.
-  - My GitHub user name is `fpl9000`.
-  - My GitHub profile is located at `https://github.com/fpl9000`.
-
-## Writing Skills
+# Writing Skills
 
 A skill is a collection of files (commonly packaged in ZIP format) with the extension `.skill` that can be read by an AI at inference-time to learn new skills. When you write a skill, follow these guidelines:
 
@@ -250,6 +240,14 @@ A skill is a collection of files (commonly packaged in ZIP format) with the exte
 - Always use UNIX-style newlines (a single line-feed character) in skill files.
 
 - The final ZIP'ed skill file should always have the `.skill` file extension.
+
+# Accessing GitHub
+
+- You have read access and write access to my GitHub repositories via command `git`.
+
+- `git` needs no credentials, because SSH access to GitHub is already configured.
+
+- My GitHub user name is `fpl9000`, and my GitHub profile is located at `https://github.com/fpl9000`.
 
 # Building Applications
 

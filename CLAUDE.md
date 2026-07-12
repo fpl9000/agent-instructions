@@ -163,6 +163,22 @@ $ es -d -r '/.git/FETCH_HEAD$'
 
 - When creating a new Markdown document, list yourself as the author.
 
+## Writing Skills
+
+A skill is a collection of files (packaged in ZIP format) with the extension `.skill` that can be read by an AI at inference-time to learn new skills. When you write a skill, follow these guidelines:
+
+- The skill syntax specification is available at `https://agentskills.io`.
+
+- Do not add any directories to a skill other than the standard ones (and only if they are non-empty): `scripts`, `references`, and `assets`.
+
+- Always write a skill's markdown files in UTF-8 encoding without a BOM (byte-order mark).
+
+- Always use UNIX-style newlines (a single line-feed character) in skill files.
+
+- Use spaces for all indentation.
+
+- The name of the ZIP'ed skill file should have the `.skill` extension.
+
 ## Writing Source Code
 
 - Keep lines of source code less than 100 columns wide.
@@ -173,13 +189,13 @@ $ es -d -r '/.git/FETCH_HEAD$'
 
 - Prefer Python and Bash as scripting languages. Avoid Windows batch scripts and Powershell scripts, unless absolutely necessary.
 
-### Editing Source Code
+### Editing Leading Whitespace
 
-- Many of my source files mix tabs and spaces in indentation. Mid-line tabs and spaces are also used to align columns in array and `Map` literals and before trailing comments.
+- Many of my scripts and source files mix tabs and spaces in indentation. Mid-line tabs and spaces are also used to align columns in array literals and before trailing comments.
 
-- The string-replacement edit tool requires its `old_string` to match the file byte-for-byte, including every tab and space.
+- The string-replacement edit tool requires its `old_string` to match content in the file byte-for-byte, including every tab and space.
 
-- Although tabs and spaces are distinct characters that are present in the read tool's output, you cannot reproduce a mixed-whitespace region with byte-exact reliability by retyping it, so the match silently fails.
+- Although tabs and spaces are distinct characters that are present in the read tool's output, you cannot reproduce a mixed-whitespace region with byte-exact reliability by retyping it, so the match fails.
 
 - When an edit fails on such a file, do not keep retrying with guessed whitespace. Instead, use one of these reliable approaches:
 
@@ -189,9 +205,7 @@ $ es -d -r '/.git/FETCH_HEAD$'
 
   3. For tricky multi-line regions, perform the replacement with a scripted literal `str.replace` (for example, a small Python script that reads the file, asserts the old text matches exactly once, replaces it, and writes it back).
 
-- Do not mass-convert files from tabs to spaces (or vice versa) to make editing easier.
-
-- After editing an AutoHotkey v2 script, syntax-check it without running it via `AutoHotkey64.exe /validate 'C:\path\to\script.ahk'` (exit code 0 and no output means success). Validate the top-level script that `#Include`s the edited file, not the included fragment alone, so that globals and other includes resolve.
+- Do not convert files from tabs to spaces (or vice versa) to make editing easier.
 
 ### Python Scripting Guidelines
 
@@ -209,6 +223,12 @@ $ es -d -r '/.git/FETCH_HEAD$'
 
   - Use the proper argument syntax for the new test command, such as using `&&` instead of `-a` to indicate Boolean AND operations, and `||` instead of `-o` to indicate Boolean OR operations.
 
+### AutoHotkey Scripting Guidelines
+
+- After editing an AutoHotkey v2 script, syntax-check it without running it via `AutoHotkey64.exe /validate 'C:\path\to\script.ahk'` (exit code 0 and no output means success).
+
+- Validate the top-level script that `#Include`s the edited file, not the included fragment alone, so that globals and other includes resolve.
+
 ### Comments in Source Code
 
 - Always write well-commented source code.
@@ -223,23 +243,7 @@ $ es -d -r '/.git/FETCH_HEAD$'
 
 - Do not talk to the user through comments in code.
 
-- Aim to have nearly the same number of lines of comments as lines of code. This is a guideline not a hard and fast rule.
-
 - Do not comment trivial code, such as Python and Go `import` statements or the initialization of local variables, unless the comment explains something important for a developer to understand.
-
-# Writing Skills
-
-A skill is a collection of files (commonly packaged in ZIP format) with the extension `.skill` that can be read by an AI at inference-time to learn new skills. When you write a skill, follow these guidelines:
-
-- The skill syntax specification is available at `https://agentskills.io`.
-
-- Do not add any directories to a skill other than the standard ones defined by the Agent Skills specification, which are `scripts`, `references`, and `assets`.
-
-- Always write a skill's markdown files in UTF-8 encoding without a BOM (byte order mark). Non-markdown files in a skill might need to deviate from this rule, such as scripts that do not work when written a non-ANSI encoding.
-
-- Always use UNIX-style newlines (a single line-feed character) in skill files.
-
-- The final ZIP'ed skill file should always have the `.skill` file extension.
 
 # Accessing GitHub
 

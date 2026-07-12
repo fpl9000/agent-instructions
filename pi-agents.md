@@ -38,7 +38,7 @@
 
 - In all Windows apps, even those spawned by a Cygwin app, the value of `HOME` is `C:\franl`, even though that is not my Windows home directory. This causes some Windows apps to use my Cygwin home directory, though some still use `C:\Users\flitt\`. This can be confusing, so please be careful with any activity involving my home directories.
 
-## Pathnames in Bash Commands
+## Pathname Handling
 
 - I will give pathnames to you in both Cygwin-style (`/c/franl/bin/...`, `/c/temp`, `~/bin`, etc.), and Windows-style (`C:\franl\bin`, `C:\temp`, etc.). It is your responsibility to convert them between styles depending on which tool you are giving them to. This section and the next will guide you with this.
 
@@ -54,7 +54,7 @@
 
 - A oddity of Cygwin: When a native Windows process starts a Cygwin program, the Cygwin runtime re-parses the Windows command line and performs its own glob/brace expansion, which can corrupt the final command line. Additional argument quoting should fix this.
 
-## Pathnames in Your File Access Tools
+## Pathnames and Your File Access Tools
 
 - Your file access tools do not understand Cygwin-style pathnames.
 
